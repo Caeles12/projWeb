@@ -12,7 +12,25 @@ import {
 import { AssociationsService } from './associations.service';
 import { Association } from './association.entity';
 import { User } from 'src/users/user.entity';
+import { ApiBody, ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
 
+export class AssociationInput {
+
+  @ApiProperty({
+      description: 'The name of the association',
+      example: "FlavienCorp",
+      type: String,
+  })
+  public name: string;
+
+  @ApiProperty({
+      description: 'The members of the association',
+      type: [Number],
+  })
+  public users: number[];
+}
+
+@ApiTags('associations')
 @Controller('associations')
 export class AssociationsController {
   constructor(private assoService: AssociationsService) {}
@@ -23,6 +41,7 @@ export class AssociationsController {
   }
 
   @Get(':id')
+  @ApiParam({name: 'id', required: true})
   async getAssociation(@Param() parameter): Promise<Association> {
     const assoc = await this.assoService.getAssociation(Number(parameter.id));
     if (assoc === undefined) {
@@ -35,6 +54,7 @@ export class AssociationsController {
   }
 
   @Get(':id/members')
+  @ApiParam({name: 'id', required: true})
   async getMembers(@Param() parameter): Promise<User[]> {
     if (
       (await this.assoService.getAssociation(Number(parameter.id))) ===
@@ -49,8 +69,9 @@ export class AssociationsController {
   }
 
   @Put(':id')
+  @ApiParam({name: 'id', required: true})
   async setAssociation(
-    @Body() input: any,
+    @Body() input: AssociationInput,
     @Param() parameter,
   ): Promise<Association> {
     if (
@@ -64,12 +85,13 @@ export class AssociationsController {
     }
     return await this.assoService.setAssociation(
       Number(parameter.id),
-      input.idUsers,
+      input.users,
       input.name,
     );
   }
 
   @Delete(':id')
+  @ApiParam({name: 'id', required: true})
   async deleteAssociation(@Param() parameter): Promise<boolean> {
     if (
       (await this.assoService.getAssociation(Number(parameter.id))) ===
@@ -84,13 +106,13 @@ export class AssociationsController {
   }
 
   @Post()
-  async create(@Body() input: any): Promise<Association> {
-    if (input.name === undefined || input.idUsers === undefined) {
+  async create(@Body() input: AssociationInput): Promise<Association> {
+    if (input.name === undefined || input.users === undefined) {
       throw new HttpException(
         'An association need a name and a list of users',
         HttpStatus.BAD_REQUEST,
       );
     }
-    return await this.assoService.create(input.idUsers, input.name);
+    return await this.assoService.create(input.users, input.name);
   }
 }

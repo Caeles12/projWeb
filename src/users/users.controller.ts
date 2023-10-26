@@ -11,7 +11,34 @@ import {
 } from '@nestjs/common';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
+import { ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
 
+export class UserInput {
+
+  @ApiProperty({
+      description: 'The firstname of the user',
+      example: "John",
+      type: String,
+  })
+  public firstname: string;
+
+  @ApiProperty({
+      description: 'The lastname of the user',
+      example: "Doe",
+      type: String,
+  })
+  public lastname: string;
+
+  @ApiProperty({
+      description: 'The age of the user',
+      minimum: 18,
+      default: 18,
+      type: Number,
+  })
+  public age: number;
+}
+
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private service: UsersService) {}
@@ -22,6 +49,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @ApiParam({name: 'id', required: true})
   async getUser(@Param() parameter): Promise<User> {
     const us = await this.service.getUser(Number(parameter.id));
     if (us === undefined) {
@@ -34,7 +62,8 @@ export class UsersController {
   }
 
   @Put(':id')
-  async setUser(@Body() input: any, @Param() parameter): Promise<User> {
+  @ApiParam({name: 'id', required: true})
+  async setUser(@Body() input: UserInput, @Param() parameter): Promise<User> {
     if ((await this.service.getUser(Number(parameter.id))) === undefined) {
       throw new HttpException(
         `Could not find a user with the id ${parameter.id}`,
@@ -50,6 +79,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @ApiParam({name: 'id', required: true})
   async deleteUser(@Param() parameter): Promise<boolean> {
     if ((await this.service.getUser(Number(parameter.id))) === undefined) {
       throw new HttpException(
@@ -61,7 +91,7 @@ export class UsersController {
   }
 
   @Post()
-  async create(@Body() input: any): Promise<User> {
+  async create(@Body() input: UserInput): Promise<User> {
     if (
       input.firstname === undefined ||
       input.lastname === undefined ||
