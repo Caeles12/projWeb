@@ -1,59 +1,78 @@
-import { Get, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Association } from './association.entity';
 import { UsersService } from 'src/users/users.service';
 import { User } from 'src/users/user.entity';
 
-const associations: Association[] =  [
-    {
-        id: 0,
-        idUsers: [0],
-        name: "JohnCorp"
-    }
-]
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 var currentId = 0;
 
 @Injectable()
 export class AssociationsService {
+  constructor(
+    private service: UsersService,
+    @InjectRepository(Association)
+    private repository: Repository<Association>,
+  ) {}
 
-    constructor (
-        private service: UsersService
-    ) {}
+  async getAll(): Promise<Association[]> {
+    let associations = await this.repository.find();
+    return associations;
+  }
 
-    getAll(): Association[] {
-        return associations
+  async getAssociation(assocId: number): Promise<Association> {
+    const association = await this.repository.findOne({
+      where: { id: assocId },
+    });
+    return association;
+  }
+
+  async getMembers(id: number): Promise<User[]> {
+    let users = (await this.getAssociation(id)).users;
+    return users;
+  }
+
+  async setAssociation(
+    assocId: number,
+    idUsers: number[] | undefined,
+    name: string | undefined,
+  ): Promise<Association> {
+    var association = await this.repository.findOne({
+      where: { id: assocId },
+    });
+    if (idUsers !== undefined) {
+      let newUsers: User[] = [];
+      for (let i of idUsers) {
+        newUsers.push(await this.service.getUser(i));
+      }
+      association.users = newUsers;
     }
-
-    getAssociation(id: number) {
-        const asso = associations.find((x: Association) => x.id === id)
-        return asso
+    if (name !== undefined) {
+      association.name = name;
     }
+    association = await this.repository.save(association);
+    return association;
+  }
 
-    getMembers(id: number): User[] {
-        return this.getAssociation(id).idUsers.map((x) => this.service.getUser(x))
-    }
+  async deleteAssociation(assocId: number): Promise<boolean> {
+    const result = await this.repository.delete(assocId);
+    return result.affected > 0;
+  }
 
-    setAssociation(id: number, idUsers: number[] | undefined, name: string | undefined) {
-        const assoIndex = associations.findIndex((x: Association) => x.id === id)
-        if(idUsers !== undefined){
-            associations[assoIndex].idUsers = idUsers
-        }
-        if(name !== undefined){
-            associations[assoIndex].name = name
-        }
-        return associations[assoIndex]
+  async create(idUsers: number[], assocName: string) {
+    currentId++;
+    let users: User[] = [];
+    for (let i of idUsers) {
+      users.push(await this.service.getUser(i));
     }
-
-    deleteAssociation(id: Number): boolean {
-        const i = associations.findIndex((x: Association) => x.id === id)
-        const removed = associations.splice(i, 1)
-        return removed.length === 1;
-    }
-
-    create(firstname: string, name: string) {
-        currentId++
-        const asso = new Association(currentId, name)
-        associations.push(asso)
-        return asso
-    }
+    const newAssociation = await this.repository.save(
+      this.repository.create({
+        id: currentId,
+        users: users,
+        name: assocName,
+      }),
+    );
+    return newAssociation;
+  }
 }

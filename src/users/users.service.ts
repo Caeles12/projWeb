@@ -1,54 +1,71 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { User } from './user.entity';
 
-const users : User[] = [
-    {
-        id: 0,
-        lastname: 'Doe',
-        firstname: 'John',
-        age: 23
-    }
-]
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 var currentId = 0;
 
 @Injectable()
 export class UsersService {
+  constructor(
+    @InjectRepository(User)
+    private repository: Repository<User>,
+  ) {}
 
-    getAll(): User[] {
-        return users
+  async getAll(): Promise<User[]> {
+    let users = await this.repository.find();
+    return users;
+  }
+
+  async getUser(userId: number): Promise<User> {
+    const user = await this.repository.findOne({
+      where: { id: userId },
+    });
+    return user;
+  }
+
+  async setUser(
+    userId: number,
+    firstname: string | undefined,
+    lastname: string | undefined,
+    age: number,
+  ): Promise<User> {
+    var user = await this.repository.findOne({
+      where: { id: userId },
+    });
+    if (firstname !== undefined) {
+      user.firstname = firstname;
     }
-
-    getUser(id: Number): User {
-        const us = users.find((x: User) => x.id === id)
-        return us
+    if (lastname !== undefined) {
+      user.lastname = lastname;
     }
-
-    setUser(id: Number, firstname: string | undefined, lastname: string | undefined, age: number): User {
-        const i = users.findIndex((x: User) => x.id === id)
-        if (firstname !== undefined) {
-            users[i].firstname = firstname
-        }
-        if (lastname !== undefined) {
-            users[i].lastname = lastname
-        }
-        if (age !== undefined) {
-            users[i].age = age
-        }
-        return users[i]
+    if (age !== undefined) {
+      user.age = age;
     }
+    user = await this.repository.save(user);
+    return user;
+  }
 
-    deleteUser(id: Number): boolean {
-        const i = users.findIndex((x: User) => x.id === id)
-        const removed = users.splice(i, 1)
-        return removed.length === 1;
-    }
+  async deleteUser(userId: number): Promise<boolean> {
+    const result = await this.repository.delete(userId);
+    return result.affected > 0;
+  }
 
-    create(firstname: string, lastname: string, age: number) {
-        currentId++
-        const us = new User(currentId, lastname, firstname, age)
-        users.push(us)
-        return us
-    }
-
+  async create(
+    firstname: string,
+    lastname: string,
+    age: number,
+  ): Promise<User> {
+    currentId++;
+    const newUser = await this.repository.save(
+      this.repository.create({
+        id: currentId,
+        lastname: lastname,
+        firstname: firstname,
+        age: age,
+      }),
+    );
+    return newUser;
+  }
 }
