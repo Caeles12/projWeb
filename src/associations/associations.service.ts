@@ -1,11 +1,13 @@
 import { Get, Injectable } from '@nestjs/common';
 import { Association } from './association.entity';
+import { UsersService } from 'src/users/users.service';
+import { User } from 'src/users/user.entity';
 
 const associations: Association[] =  [
     {
         id: 0,
         idUsers: [0],
-        name: "FlavienCorp"
+        name: "JohnCorp"
     }
 ]
 
@@ -14,6 +16,10 @@ var currentId = 0;
 @Injectable()
 export class AssociationsService {
 
+    constructor (
+        private service: UsersService
+    ) {}
+
     getAll(): Association[] {
         return associations
     }
@@ -21,6 +27,10 @@ export class AssociationsService {
     getAssociation(id: number) {
         const asso = associations.find((x: Association) => x.id === id)
         return asso
+    }
+
+    getMembers(id: number): User[] {
+        return this.getAssociation(id).idUsers.map((x) => this.service.getUser(x))
     }
 
     setAssociation(id: number, idUsers: number[] | undefined, name: string | undefined) {
