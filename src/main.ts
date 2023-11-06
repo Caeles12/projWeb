@@ -1,11 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-    const config = new DocumentBuilder()
+  app.use(helmet());
+  const config = new DocumentBuilder()
     .setTitle('Gestion des Associations')
     .setDescription('Descriptions des APIs de la gestion des associations')
     .setVersion('1.0')

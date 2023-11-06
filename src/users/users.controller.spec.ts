@@ -46,12 +46,11 @@ describe('UsersController', () => {
           firstname: 'John',
           lastname: 'Doe',
           age: 23,
+          password: 'Mot2passe!',
         },
       ]);
       jest.spyOn(service, 'getAll').mockImplementation(() => expected);
-      let out = await controller.getAll();
-      console.log(out);
-      expect(out).toBe(await expected);
+      expect(await controller.getAll()).toBe(await expected);
     });
   });
 
@@ -63,6 +62,7 @@ describe('UsersController', () => {
           firstname: 'John',
           lastname: 'Doe',
           age: 23,
+          password: 'Mot2passe!',
         },
       ]);
       jest.spyOn(service, 'getUser').mockImplementation((id) => {

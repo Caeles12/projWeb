@@ -14,10 +14,20 @@ export class User {
   @Column()
   age: number;
 
-  constructor(id: number, lastname: string, firstname: string, age: number) {
+  @Column()
+  password: string;
+
+  constructor(
+    id: number,
+    lastname: string,
+    firstname: string,
+    age: number,
+    password: string,
+  ) {
     this.id = id;
     this.lastname = lastname;
     this.firstname = firstname;
     this.age = age;
+    this.password = password;
   }
 }

@@ -8,34 +8,41 @@ import {
   Delete,
   HttpStatus,
   HttpException,
+  UseGuards,
 } from '@nestjs/common';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 import { ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 
 export class UserInput {
-
   @ApiProperty({
-      description: 'The firstname of the user',
-      example: "John",
-      type: String,
+    description: 'The firstname of the user',
+    example: 'John',
+    type: String,
   })
   public firstname: string;
 
   @ApiProperty({
-      description: 'The lastname of the user',
-      example: "Doe",
-      type: String,
+    description: 'The lastname of the user',
+    example: 'Doe',
+    type: String,
   })
   public lastname: string;
 
   @ApiProperty({
-      description: 'The age of the user',
-      minimum: 18,
-      default: 18,
-      type: Number,
+    description: 'The age of the user',
+    minimum: 18,
+    default: 18,
+    type: Number,
   })
   public age: number;
+
+  @ApiProperty({
+    description: 'The password of the user',
+    type: String,
+  })
+  public password: string;
 }
 
 @ApiTags('users')
@@ -43,13 +50,14 @@ export class UserInput {
 export class UsersController {
   constructor(private service: UsersService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async getAll(): Promise<User[]> {
     return await this.service.getAll();
   }
 
   @Get(':id')
-  @ApiParam({name: 'id', required: true})
+  @ApiParam({ name: 'id', required: true })
   async getUser(@Param() parameter): Promise<User> {
     const us = await this.service.getUser(Number(parameter.id));
     if (us === undefined) {
@@ -62,7 +70,7 @@ export class UsersController {
   }
 
   @Put(':id')
-  @ApiParam({name: 'id', required: true})
+  @ApiParam({ name: 'id', required: true })
   async setUser(@Body() input: UserInput, @Param() parameter): Promise<User> {
     if ((await this.service.getUser(Number(parameter.id))) === undefined) {
       throw new HttpException(
@@ -79,7 +87,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  @ApiParam({name: 'id', required: true})
+  @ApiParam({ name: 'id', required: true })
   async deleteUser(@Param() parameter): Promise<boolean> {
     if ((await this.service.getUser(Number(parameter.id))) === undefined) {
       throw new HttpException(
@@ -95,7 +103,8 @@ export class UsersController {
     if (
       input.firstname === undefined ||
       input.lastname === undefined ||
-      input.age === undefined
+      input.age === undefined ||
+      input.password === undefined
     ) {
       throw new HttpException(
         'A user need a firstname, a lastname and an age',
@@ -106,6 +115,7 @@ export class UsersController {
       input.firstname,
       input.lastname,
       Number(input.age),
+      input.password,
     );
   }
 }
