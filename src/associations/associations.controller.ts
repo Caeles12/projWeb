@@ -27,7 +27,7 @@ export class AssociationInput {
       description: 'The members of the association',
       type: [Number],
   })
-  public users: number[];
+  public idUsers: number[];
 }
 
 @ApiTags('associations')
@@ -85,7 +85,7 @@ export class AssociationsController {
     }
     return await this.assoService.setAssociation(
       Number(parameter.id),
-      input.users,
+      input.idUsers,
       input.name,
     );
   }
@@ -107,12 +107,12 @@ export class AssociationsController {
 
   @Post()
   async create(@Body() input: AssociationInput): Promise<Association> {
-    if (input.name === undefined || input.users === undefined) {
+    if (input.name === undefined || input.idUsers === undefined) {
       throw new HttpException(
         'An association need a name and a list of users',
         HttpStatus.BAD_REQUEST,
       );
     }
-    return await this.assoService.create(input.users, input.name);
+    return await this.assoService.create(input.idUsers, input.name);
   }
 }
