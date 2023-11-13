@@ -50,7 +50,6 @@ export class UserInput {
 export class UsersController {
   constructor(private service: UsersService) {}
 
-  @UseGuards(AuthGuard('jwt'))
   @Get()
   async getAll(): Promise<User[]> {
     return await this.service.getAll();
