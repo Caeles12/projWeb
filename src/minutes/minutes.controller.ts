@@ -73,11 +73,6 @@ export class MinutesController {
 
   @Post()
   async create(@Body() input: MinuteInput): Promise<Minute> {
-    console.log(input.content);
-    console.log(input.idAssociation);
-    console.log(input.date);
-    console.log(input.idVoters);
-
     if (
       input.content === undefined ||
       input.idAssociation === undefined ||

@@ -24,7 +24,6 @@ export class MinutesService {
     const minute = await this.repository.findOne({
       where: { id: minuteId },
     });
-    console.log(minute);
     return minute;
   }
 

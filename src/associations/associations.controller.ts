@@ -11,21 +11,21 @@ import {
 } from '@nestjs/common';
 import { AssociationsService } from './associations.service';
 import { Association } from './association.entity';
-import { User } from 'src/users/user.entity';
-import { ApiBody, ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { AssociationsDTO } from './association.dto';
+import { Member } from './association.member';
 
 export class AssociationInput {
-
   @ApiProperty({
-      description: 'The name of the association',
-      example: "FlavienCorp",
-      type: String,
+    description: 'The name of the association',
+    example: 'FlavienCorp',
+    type: String,
   })
   public name: string;
 
   @ApiProperty({
-      description: 'The members of the association',
-      type: [Number],
+    description: 'The members of the association',
+    type: [Number],
   })
   public idUsers: number[];
 }
@@ -36,14 +36,16 @@ export class AssociationsController {
   constructor(private assoService: AssociationsService) {}
 
   @Get()
-  async getAll(): Promise<Association[]> {
-    return await this.assoService.getAll();
+  async getAll(): Promise<AssociationsDTO[]> {
+    return await this.assoService.getAllDTO();
   }
 
   @Get(':id')
-  @ApiParam({name: 'id', required: true})
-  async getAssociation(@Param() parameter): Promise<Association> {
-    const assoc = await this.assoService.getAssociation(Number(parameter.id));
+  @ApiParam({ name: 'id', required: true })
+  async getAssociation(@Param() parameter): Promise<AssociationsDTO> {
+    const assoc = await this.assoService.getAssociationDTO(
+      Number(parameter.id),
+    );
     if (assoc === undefined) {
       throw new HttpException(
         `Could not find an association with the id ${parameter.id}`,
@@ -54,8 +56,8 @@ export class AssociationsController {
   }
 
   @Get(':id/members')
-  @ApiParam({name: 'id', required: true})
-  async getMembers(@Param() parameter): Promise<User[]> {
+  @ApiParam({ name: 'id', required: true })
+  async getMembers(@Param() parameter): Promise<Member[]> {
     if (
       (await this.assoService.getAssociation(Number(parameter.id))) ===
       undefined
@@ -69,7 +71,7 @@ export class AssociationsController {
   }
 
   @Put(':id')
-  @ApiParam({name: 'id', required: true})
+  @ApiParam({ name: 'id', required: true })
   async setAssociation(
     @Body() input: AssociationInput,
     @Param() parameter,
@@ -91,7 +93,7 @@ export class AssociationsController {
   }
 
   @Delete(':id')
-  @ApiParam({name: 'id', required: true})
+  @ApiParam({ name: 'id', required: true })
   async deleteAssociation(@Param() parameter): Promise<boolean> {
     if (
       (await this.assoService.getAssociation(Number(parameter.id))) ===

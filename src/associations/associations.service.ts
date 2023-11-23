@@ -5,20 +5,58 @@ import { User } from 'src/users/user.entity';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { RolesService } from 'src/roles/roles.service';
+import { AssociationsDTO } from './association.dto';
+import { Member } from './association.member';
 
 var currentId = 0;
 
 @Injectable()
 export class AssociationsService {
   constructor(
-    private service: UsersService,
+    private userService: UsersService,
+    private roleService: RolesService,
     @InjectRepository(Association)
     private repository: Repository<Association>,
   ) {}
 
+  private async userToMember(
+    association: Association,
+    user: User,
+  ): Promise<Member> {
+    const role = await this.roleService.get(user.id, association.id);
+    const member = new Member(
+      user.lastname,
+      user.firstname,
+      user.age,
+      role.role,
+    );
+    return member;
+  }
+
+  private async associationToDTO(
+    association: Association,
+  ): Promise<AssociationsDTO> {
+    let members = [];
+    for (let user of association.users) {
+      members.push(await this.userToMember(association, user));
+    }
+    const associationDTO = new AssociationsDTO(association.name, members);
+    return associationDTO;
+  }
+
   async getAll(): Promise<Association[]> {
     let associations = await this.repository.find();
     return associations;
+  }
+
+  async getAllDTO(): Promise<AssociationsDTO[]> {
+    let associations = await this.getAll();
+    let associationsDTO = [];
+    for (let association of associations) {
+      associationsDTO.push(await this.associationToDTO(association));
+    }
+    return associationsDTO;
   }
 
   async getAssociation(assocId: number): Promise<Association> {
@@ -28,9 +66,13 @@ export class AssociationsService {
     return association;
   }
 
-  async getMembers(id: number): Promise<User[]> {
-    let users = (await this.getAssociation(id)).users;
-    return users;
+  async getAssociationDTO(assocId: number): Promise<AssociationsDTO> {
+    return await this.associationToDTO(await this.getAssociation(assocId));
+  }
+
+  async getMembers(id: number): Promise<Member[]> {
+    let members = (await this.getAssociationDTO(id)).members;
+    return members;
   }
 
   async setAssociation(
@@ -44,7 +86,7 @@ export class AssociationsService {
     if (idUsers !== undefined) {
       let newUsers: User[] = [];
       for (let i of idUsers) {
-        newUsers.push(await this.service.getUser(i));
+        newUsers.push(await this.userService.getUser(i));
       }
       association.users = newUsers;
     }
@@ -64,7 +106,7 @@ export class AssociationsService {
     currentId++;
     let users: User[] = [];
     for (let i of idUsers) {
-      users.push(await this.service.getUser(i));
+      users.push(await this.userService.getUser(i));
     }
     const newAssociation = await this.repository.save(
       this.repository.create({
