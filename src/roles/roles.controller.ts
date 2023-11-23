@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { Role } from './role.entity';
 import { RoleInput } from './roles.input';
@@ -8,8 +18,7 @@ import { RoleUpdate } from './roles.update';
 @ApiTags('roles')
 @Controller('roles')
 export class RolesController {
-
-    constructor(private service: RolesService) {}
+  constructor(private service: RolesService) {}
 
   @Get()
   async getAll(): Promise<Role[]> {
@@ -19,7 +28,10 @@ export class RolesController {
   @Get(':idUser/:idAsso')
   @ApiParam({ name: 'idUser', required: true })
   async getUser(@Param() parameter): Promise<Role> {
-    const role = await this.service.get(Number(parameter.idUser), Number(parameter.idAsso));
+    const role = await this.service.get(
+      Number(parameter.idUser),
+      Number(parameter.idAsso),
+    );
     if (role === null) {
       throw new HttpException(
         `Could not find a role for user ${parameter.idUser} in the assocation ${parameter.idAsso}`,
@@ -32,7 +44,12 @@ export class RolesController {
   @Put(':idUser/:idAsso')
   @ApiParam({ name: 'id', required: true })
   async setUser(@Body() input: RoleUpdate, @Param() parameter): Promise<Role> {
-    if (await this.service.get(Number(parameter.idUser), Number(parameter.idAsso)) === null) {
+    if (
+      (await this.service.get(
+        Number(parameter.idUser),
+        Number(parameter.idAsso),
+      )) === null
+    ) {
       throw new HttpException(
         `Could not find a role for user ${parameter.idUser} in the assocation ${parameter.idAsso}`,
         HttpStatus.NOT_FOUND,
@@ -41,14 +58,19 @@ export class RolesController {
     return await this.service.update(
       Number(parameter.idUser),
       Number(parameter.idAsso),
-      input.name
+      input.name,
     );
   }
 
   @Delete(':idUser/:idAsso')
   @ApiParam({ name: 'id', required: true })
   async deleteUser(@Param() parameter): Promise<boolean> {
-    if (await this.service.get(Number(parameter.idUser), Number(parameter.idAsso)) === null) {
+    if (
+      (await this.service.get(
+        Number(parameter.idUser),
+        Number(parameter.idAsso),
+      )) === null
+    ) {
       throw new HttpException(
         `Could not find a role for user ${parameter.idUser} in the assocation ${parameter.idAsso}`,
         HttpStatus.NOT_FOUND,
@@ -70,10 +92,9 @@ export class RolesController {
       );
     }
     return await this.service.create(
-        input.name,
-        input.idUser,
-        input.idAssociation,
+      input.name,
+      input.idUser,
+      input.idAssociation,
     );
   }
-
 }

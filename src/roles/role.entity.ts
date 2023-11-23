@@ -11,11 +11,7 @@ export class Role {
   @Column()
   role: string;
 
-  constructor(
-    role: string,
-    idUser: number,
-    idAssociation:number
-  ) {
+  constructor(role: string, idUser: number, idAssociation: number) {
     this.role = role;
     this.idUser = idUser;
     this.idAssociation = idAssociation;
