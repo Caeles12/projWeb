@@ -5,12 +5,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import * as bcrypt from 'bcrypt';
+import { RolesService } from 'src/roles/roles.service';
+import { AssociationsService } from 'src/associations/associations.service';
+import { UserRole } from './user.role';
 
 var currentId = 0;
 
 @Injectable()
 export class UsersService {
   constructor(
+    private rolesService: RolesService,
+    private associationService: AssociationsService,
     @InjectRepository(User)
     private repository: Repository<User>,
   ) {}
@@ -25,6 +30,21 @@ export class UsersService {
       where: { id: userId },
     });
     return user;
+  }
+
+  async getUserRoles(userId: number): Promise<UserRole[]> {
+    const user = await this.repository.findOne({
+      where: { id: userId },
+    });
+    const roles = await this.rolesService.getAllRoles(userId);
+    let userRoles: UserRole[] = [];
+    for (let role of roles) {
+      let assocName = (
+        await this.associationService.getAssociation(role.idAssociation)
+      ).name;
+      userRoles.push(new UserRole(assocName, role.role));
+    }
+    return userRoles;
   }
 
   async setUser(

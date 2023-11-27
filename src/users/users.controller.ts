@@ -14,6 +14,7 @@ import { User } from './user.entity';
 import { UsersService } from './users.service';
 import { ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { UserRole } from './user.role';
 
 export class UserInput {
   @ApiProperty({
@@ -66,6 +67,19 @@ export class UsersController {
       );
     }
     return us;
+  }
+
+  @Get(':id/roles')
+  @ApiParam({ name: 'id', required: true })
+  async getUserRoles(@Param() parameter): Promise<UserRole[]> {
+    const userRoles = await this.service.getUserRoles(Number(parameter.id));
+    if (userRoles === undefined) {
+      throw new HttpException(
+        `Could not find a user with the id ${parameter.id}`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return userRoles;
   }
 
   @Put(':id')

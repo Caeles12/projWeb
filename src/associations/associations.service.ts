@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { Association } from './association.entity';
 import { UsersService } from 'src/users/users.service';
 import { User } from 'src/users/user.entity';
@@ -14,6 +14,7 @@ var currentId = 0;
 @Injectable()
 export class AssociationsService {
   constructor(
+    @Inject(forwardRef(() => UsersService))
     private userService: UsersService,
     private roleService: RolesService,
     @InjectRepository(Association)
