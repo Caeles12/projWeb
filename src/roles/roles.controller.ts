@@ -14,6 +14,7 @@ import { Role } from './role.entity';
 import { RoleInput } from './roles.input';
 import { RolesService } from './roles.service';
 import { RoleUpdate } from './roles.update';
+import { User } from 'src/users/user.entity';
 
 @ApiTags('roles')
 @Controller('roles')
@@ -23,6 +24,18 @@ export class RolesController {
   @Get()
   async getAll(): Promise<Role[]> {
     return await this.service.getAll();
+  }
+
+  @Get('users/:name')
+  async gettAllUsers(@Param() parameter): Promise<User[]> {
+    const users = await this.service.getAllUsers(parameter.name);
+    if (users === null) {
+      throw new HttpException(
+        `The role ${parameter.name} does not exists.`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return users;
   }
 
   @Get(':idUser/:idAsso')

@@ -1,12 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Role } from './role.entity';
 import { User } from 'src/users/user.entity';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class RolesService {
   constructor(
+    @Inject(forwardRef(() => UsersService))
+    private usersService: UsersService,
     @InjectRepository(Role)
     private repository: Repository<Role>,
   ) {}
@@ -19,6 +22,16 @@ export class RolesService {
   async getAllRoles(userId: number): Promise<Role[]> {
     let roles = await this.repository.find({ where: { idUser: userId } });
     return roles;
+  }
+
+  async getAllUsers(roleName: string): Promise<User[]> {
+    let roles = await this.repository.find({ where: { role: roleName } });
+    var userList = [];
+    for (let r of roles) {
+      let u = await this.usersService.getUser(r.idUser);
+      userList.push(u);
+    }
+    return userList;
   }
 
   async get(userId: number, assocationId: number): Promise<Role> {
