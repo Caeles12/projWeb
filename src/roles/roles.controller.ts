@@ -104,6 +104,18 @@ export class RolesController {
         HttpStatus.BAD_REQUEST,
       );
     }
+    const currentRoleUser = await this.service.get(
+      Number(input.idUser),
+      Number(input.idAssociation),
+    )
+    if (
+      (currentRoleUser) != null
+    ) {
+      throw new HttpException(
+        `There is already a role ${currentRoleUser.role} for the user ${input.idUser} in the assocation ${input.idAssociation}. Use the PUT method to edit role.`,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return await this.service.create(
       input.name,
       input.idUser,
