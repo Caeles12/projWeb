@@ -5,6 +5,7 @@ import { UsersModule } from 'src/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Association } from './association.entity';
 import { RolesModule } from 'src/roles/roles.module';
+import { MinutesModule } from 'src/minutes/minutes.module';
 
 @Module({
   controllers: [AssociationsController],
@@ -12,6 +13,7 @@ import { RolesModule } from 'src/roles/roles.module';
   imports: [
     TypeOrmModule.forFeature([Association]),
     forwardRef(() => UsersModule),
+    MinutesModule,
     RolesModule,
   ],
   exports: [AssociationsService],

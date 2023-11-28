@@ -8,15 +8,18 @@ import { Repository } from 'typeorm';
 import { RolesService } from 'src/roles/roles.service';
 import { AssociationsDTO } from './association.dto';
 import { Member } from './association.member';
+import { Minute } from 'src/minutes/minute.entity';
+import { MinutesService } from 'src/minutes/minutes.service';
 
 var currentId = 0;
 
 @Injectable()
 export class AssociationsService {
   constructor(
+    private minuteService: MinutesService,
+    private roleService: RolesService,
     @Inject(forwardRef(() => UsersService))
     private userService: UsersService,
-    private roleService: RolesService,
     @InjectRepository(Association)
     private repository: Repository<Association>,
   ) {}
@@ -74,6 +77,18 @@ export class AssociationsService {
   async getMembers(id: number): Promise<Member[]> {
     let members = (await this.getAssociationDTO(id)).members;
     return members;
+  }
+
+  async getMinutes(
+    id: number,
+    sort?: string,
+    order?: string,
+  ): Promise<Minute[]> {
+    return this.minuteService.getAssociationMinutes(
+      await this.getAssociation(id),
+      sort,
+      order,
+    );
   }
 
   async setAssociation(

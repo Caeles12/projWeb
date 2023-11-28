@@ -8,12 +8,39 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { AssociationsService } from './associations.service';
 import { Association } from './association.entity';
-import { ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiProperty, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AssociationsDTO } from './association.dto';
 import { Member } from './association.member';
+import { Minute } from 'src/minutes/minute.entity';
+
+export class SortInput {
+  @ApiProperty({
+    description: '',
+    example: 'date',
+    type: String,
+  })
+  public sort: string;
+
+  @ApiProperty({
+    description: '',
+    example: 'ASC',
+    type: String,
+  })
+  public order: string;
+}
+
+export enum SortOrder {
+  ASC = 'ASC',
+  DESC = 'DESC',
+}
+
+export enum SortType {
+  Date = 'date',
+}
 
 export class AssociationInput {
   @ApiProperty({
@@ -68,6 +95,37 @@ export class AssociationsController {
       );
     }
     return await this.assoService.getMembers(Number(parameter.id));
+  }
+
+  @Get(':id/minutes')
+  @ApiQuery({
+    name: 'sort',
+    required: false,
+    description: 'Sort order for items',
+    enum: SortType,
+  })
+  @ApiQuery({
+    name: 'order',
+    required: false,
+    description: 'Order direction for sort',
+    enum: SortOrder,
+  })
+  @ApiParam({ name: 'id', required: true })
+  async getMinutes(@Query() query, @Param() parameter): Promise<Minute[]> {
+    if (
+      (await this.assoService.getAssociation(Number(parameter.id))) ===
+      undefined
+    ) {
+      throw new HttpException(
+        `Could not find an association with the id ${parameter.id}`,
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return await this.assoService.getMinutes(
+      Number(parameter.id),
+      query.sort,
+      query.order,
+    );
   }
 
   @Put(':id')

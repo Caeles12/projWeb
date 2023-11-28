@@ -14,8 +14,8 @@ export class Minute {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  date: string;
+  @Column({ type: 'date' })
+  date: Date;
 
   @Column()
   content: string;
@@ -30,7 +30,7 @@ export class Minute {
 
   constructor(
     id: number,
-    date: string,
+    date: Date,
     content: string,
     association: Association,
     voters: User[],

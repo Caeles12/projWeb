@@ -1,15 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AssociationsService } from 'src/associations/associations.service';
 import { UsersService } from 'src/users/users.service';
 import { Minute } from './minute.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/user.entity';
+import { Association } from 'src/associations/association.entity';
 
 @Injectable()
 export class MinutesService {
   constructor(
+    @Inject(forwardRef(() => UsersService))
     private userService: UsersService,
+    @Inject(forwardRef(() => AssociationsService))
     private assoService: AssociationsService,
     @InjectRepository(Minute)
     private repository: Repository<Minute>,
@@ -23,6 +26,26 @@ export class MinutesService {
   async getMinute(minuteId: number): Promise<Minute> {
     const minute = await this.repository.findOne({
       where: { id: minuteId },
+    });
+    return minute;
+  }
+
+  async getAssociationMinutes(
+    association: Association,
+    sort?: string,
+    order?: string,
+  ): Promise<Minute[]> {
+    let sort_order: 'ASC' | 'DESC' = 'ASC';
+    if (order === 'DESC') {
+      sort_order = 'DESC';
+    }
+    const order_param = {};
+    if (sort !== undefined) {
+      order_param[sort] = sort_order;
+    }
+    const minute = await this.repository.find({
+      where: { association: association },
+      order: order_param,
     });
     return minute;
   }
@@ -55,7 +78,11 @@ export class MinutesService {
       minute.content = content;
     }
     if (date !== undefined) {
-      minute.date = date;
+      let d = date.split('/');
+      let jour = parseInt(d[0]);
+      let mois = parseInt(d[1]) - 1;
+      let annee = parseInt(d[2]);
+      minute.date = new Date(annee, mois, jour);
     }
     minute = await this.repository.save(minute);
     return minute;
@@ -76,10 +103,16 @@ export class MinutesService {
     for (let i of votersId) {
       voters.push(await this.userService.getUser(i));
     }
+    let d = date.split('/');
+    let jour = parseInt(d[0]);
+    let mois = parseInt(d[1]) - 1;
+    let annee = parseInt(d[2]);
+    let newDate = new Date(annee, mois, jour);
+
     const association = await this.assoService.getAssociation(associationId);
     const newMinute = await this.repository.save(
       this.repository.create({
-        date: date,
+        date: newDate,
         content: content,
         association: association,
         voters: voters,
