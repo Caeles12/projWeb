@@ -11,8 +11,6 @@ import { Member } from './association.member';
 import { Minute } from 'src/minutes/minute.entity';
 import { MinutesService } from 'src/minutes/minutes.service';
 
-var currentId = 0;
-
 @Injectable()
 export class AssociationsService {
   constructor(
@@ -119,14 +117,12 @@ export class AssociationsService {
   }
 
   async create(idUsers: number[], assocName: string) {
-    currentId++;
     let users: User[] = [];
     for (let i of idUsers) {
       users.push(await this.userService.getUser(i));
     }
     const newAssociation = await this.repository.save(
       this.repository.create({
-        id: currentId,
         users: users,
         name: assocName,
       }),

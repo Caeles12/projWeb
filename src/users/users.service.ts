@@ -9,8 +9,6 @@ import { RolesService } from 'src/roles/roles.service';
 import { AssociationsService } from 'src/associations/associations.service';
 import { UserRole } from './user.role';
 
-var currentId = 0;
-
 @Injectable()
 export class UsersService {
   constructor(
@@ -80,14 +78,12 @@ export class UsersService {
     age: number,
     password: string,
   ): Promise<User> {
-    currentId++;
 
     const saltOrRounds = 10;
     const hash = await bcrypt.hash(password, saltOrRounds);
 
     const newUser = await this.repository.save(
       this.repository.create({
-        id: currentId,
         lastname: lastname,
         firstname: firstname,
         age: age,
