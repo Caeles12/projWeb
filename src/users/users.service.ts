@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { RolesService } from 'src/roles/roles.service';
 import { AssociationsService } from 'src/associations/associations.service';
 import { UserRole } from './user.role';
+import { UserDTO } from './user.dto';
 
 @Injectable()
 export class UsersService {
@@ -18,9 +19,21 @@ export class UsersService {
     private repository: Repository<User>,
   ) {}
 
+  private async userToDTO(user: User): Promise<UserDTO> {
+    return new UserDTO(user.firstname, user.lastname, user.age);
+  }
+
   async getAll(): Promise<User[]> {
     let users = await this.repository.find();
     return users;
+  }
+  async getAllDTO(): Promise<UserDTO[]> {
+    let users = await this.getAll();
+    let usersDTO = [];
+    for (let user of users) {
+      usersDTO.push(await this.userToDTO(user));
+    }
+    return usersDTO;
   }
 
   async getUser(userId: number): Promise<User> {
@@ -28,6 +41,13 @@ export class UsersService {
       where: { id: userId },
     });
     return user;
+  }
+
+  async getUserDTO(userId: number): Promise<UserDTO> {
+    const user = await this.repository.findOne({
+      where: { id: userId },
+    });
+    return this.userToDTO(user);
   }
 
   async getUserRoles(userId: number): Promise<UserRole[]> {
@@ -50,7 +70,7 @@ export class UsersService {
     firstname: string | undefined,
     lastname: string | undefined,
     age: number,
-  ): Promise<User> {
+  ): Promise<UserDTO> {
     var user = await this.repository.findOne({
       where: { id: userId },
     });
@@ -64,7 +84,7 @@ export class UsersService {
       user.age = age;
     }
     user = await this.repository.save(user);
-    return user;
+    return this.userToDTO(user);
   }
 
   async deleteUser(userId: number): Promise<boolean> {
@@ -77,8 +97,7 @@ export class UsersService {
     lastname: string,
     age: number,
     password: string,
-  ): Promise<User> {
-
+  ): Promise<UserDTO> {
     const saltOrRounds = 10;
     const hash = await bcrypt.hash(password, saltOrRounds);
 
@@ -90,6 +109,6 @@ export class UsersService {
         password: hash,
       }),
     );
-    return newUser;
+    return this.userToDTO(newUser);
   }
 }

@@ -15,6 +15,7 @@ import { UsersService } from './users.service';
 import { ApiParam, ApiProperty, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { UserRole } from './user.role';
+import { UserDTO } from './user.dto';
 
 export class UserInput {
   @ApiProperty({
@@ -52,14 +53,14 @@ export class UsersController {
   constructor(private service: UsersService) {}
 
   @Get()
-  async getAll(): Promise<User[]> {
-    return await this.service.getAll();
+  async getAll(): Promise<UserDTO[]> {
+    return await this.service.getAllDTO();
   }
 
   @Get(':id')
   @ApiParam({ name: 'id', required: true })
-  async getUser(@Param() parameter): Promise<User> {
-    const us = await this.service.getUser(Number(parameter.id));
+  async getUser(@Param() parameter): Promise<UserDTO> {
+    const us = await this.service.getUserDTO(Number(parameter.id));
     if (us === undefined) {
       throw new HttpException(
         `Could not find a user with the id ${parameter.id}`,
@@ -84,7 +85,10 @@ export class UsersController {
 
   @Put(':id')
   @ApiParam({ name: 'id', required: true })
-  async setUser(@Body() input: UserInput, @Param() parameter): Promise<User> {
+  async setUser(
+    @Body() input: UserInput,
+    @Param() parameter,
+  ): Promise<UserDTO> {
     if ((await this.service.getUser(Number(parameter.id))) === undefined) {
       throw new HttpException(
         `Could not find a user with the id ${parameter.id}`,
@@ -112,7 +116,7 @@ export class UsersController {
   }
 
   @Post()
-  async create(@Body() input: UserInput): Promise<User> {
+  async create(@Body() input: UserInput): Promise<UserDTO> {
     if (
       input.firstname === undefined ||
       input.lastname === undefined ||
