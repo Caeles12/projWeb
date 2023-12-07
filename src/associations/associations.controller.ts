@@ -133,7 +133,7 @@ export class AssociationsController {
   async setAssociation(
     @Body() input: AssociationInput,
     @Param() parameter,
-  ): Promise<Association> {
+  ): Promise<AssociationsDTO> {
     if (
       (await this.assoService.getAssociation(Number(parameter.id))) ===
       undefined
@@ -166,7 +166,7 @@ export class AssociationsController {
   }
 
   @Post()
-  async create(@Body() input: AssociationInput): Promise<Association> {
+  async create(@Body() input: AssociationInput): Promise<AssociationsDTO> {
     if (input.name === undefined || input.idUsers === undefined) {
       throw new HttpException(
         'An association need a name and a list of users',

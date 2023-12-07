@@ -93,7 +93,7 @@ export class AssociationsService {
     assocId: number,
     idUsers: number[] | undefined,
     name: string | undefined,
-  ): Promise<Association> {
+  ): Promise<AssociationsDTO> {
     var association = await this.repository.findOne({
       where: { id: assocId },
     });
@@ -108,7 +108,7 @@ export class AssociationsService {
       association.name = name;
     }
     association = await this.repository.save(association);
-    return association;
+    return this.associationToDTO(association);
   }
 
   async deleteAssociation(assocId: number): Promise<boolean> {
@@ -116,7 +116,7 @@ export class AssociationsService {
     return result.affected > 0;
   }
 
-  async create(idUsers: number[], assocName: string) {
+  async create(idUsers: number[], assocName: string): Promise<AssociationsDTO> {
     let users: User[] = [];
     for (let i of idUsers) {
       users.push(await this.userService.getUser(i));
@@ -127,6 +127,6 @@ export class AssociationsService {
         name: assocName,
       }),
     );
-    return newAssociation;
+    return this.associationToDTO(newAssociation);
   }
 }
