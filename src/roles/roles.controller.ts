@@ -15,6 +15,7 @@ import { RoleInput } from './roles.input';
 import { RolesService } from './roles.service';
 import { RoleUpdate } from './roles.update';
 import { User } from 'src/users/user.entity';
+import { UserDTO } from 'src/users/user.dto';
 
 @ApiTags('roles')
 @Controller('roles')
@@ -27,7 +28,7 @@ export class RolesController {
   }
 
   @Get('users/:name')
-  async gettAllUsers(@Param() parameter): Promise<User[]> {
+  async gettAllUsers(@Param() parameter): Promise<UserDTO[]> {
     const users = await this.service.getAllUsers(parameter.name);
     if (users === null) {
       throw new HttpException(
@@ -107,10 +108,8 @@ export class RolesController {
     const currentRoleUser = await this.service.get(
       Number(input.idUser),
       Number(input.idAssociation),
-    )
-    if (
-      (currentRoleUser) != null
-    ) {
+    );
+    if (currentRoleUser != null) {
       throw new HttpException(
         `There is already a role ${currentRoleUser.role} for the user ${input.idUser} in the assocation ${input.idAssociation}. Use the PUT method to edit role.`,
         HttpStatus.BAD_REQUEST,

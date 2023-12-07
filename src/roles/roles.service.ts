@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Role } from './role.entity';
 import { User } from 'src/users/user.entity';
 import { UsersService } from 'src/users/users.service';
+import { UserDTO } from 'src/users/user.dto';
 
 @Injectable()
 export class RolesService {
@@ -24,11 +25,11 @@ export class RolesService {
     return roles;
   }
 
-  async getAllUsers(roleName: string): Promise<User[]> {
+  async getAllUsers(roleName: string): Promise<UserDTO[]> {
     let roles = await this.repository.find({ where: { role: roleName } });
     var userList = [];
     for (let r of roles) {
-      let u = await this.usersService.getUser(r.idUser);
+      let u = await this.usersService.getUserDTO(r.idUser);
       userList.push(u);
     }
     return userList;
