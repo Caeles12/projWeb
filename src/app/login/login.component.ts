@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ApiHelperService } from '../services/api-helper.service';
+import { TokenStorageService } from '../services/token-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -6,6 +8,11 @@ import { Component } from '@angular/core';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
+  constructor(
+    private api: ApiHelperService,
+    private tokenStorageService: TokenStorageService
+  ) {}
+
   login(): void {
     const username: string = (
       document.getElementById('username') as HTMLInputElement
@@ -13,6 +20,8 @@ export class LoginComponent {
     const password: string = (
       document.getElementById('password') as HTMLInputElement
     ).value;
-    console.log(username, password);
+    this.api
+      .post({ endpoint: '/auth/login', data: { username, password } })
+      .then((response) => this.tokenStorageService.save(response.access_token));
   }
 }
