@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Observable, lastValueFrom } from 'rxjs';
-import { base_url } from '../services/api-helper.service';
+import { ApiHelperService } from '../services/api-helper.service';
 
 @Component({
   selector: 'app-users-list',
@@ -9,15 +7,12 @@ import { base_url } from '../services/api-helper.service';
   styleUrl: './users-list.component.css',
 })
 export class UsersListComponent implements OnInit {
-  constructor(private http: HttpClient) {}
+  constructor(private api: ApiHelperService) {}
 
   ngOnInit(): void {
-    const resquest: Observable<any> = this.http.get(base_url + '/users', {
-      observe: 'response',
-    });
-    lastValueFrom(resquest).then(
-      (response) => (this.dataSource = response.body)
-    );
+    this.api
+      .get({ endpoint: '/users' })
+      .then((response) => (this.dataSource = response));
   }
   displayedColumns: string[] = ['id', 'lastname', 'firstname', 'age'];
   dataSource = [];
