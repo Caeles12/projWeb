@@ -10,9 +10,10 @@ import { TokenHttpInterceptor } from './interceptors/token.interceptor';
 
 import { MatTableModule } from '@angular/material/table';
 import { LoginComponent } from './login/login.component';
+import { NavComponent } from './nav/nav.component';
 
 @NgModule({
-  declarations: [AppComponent, UsersListComponent, LoginComponent],
+  declarations: [AppComponent, UsersListComponent, LoginComponent, NavComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

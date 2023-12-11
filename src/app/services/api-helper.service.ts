@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-export const base_url: string =
-  'https://03e5-2a01-cb06-b831-9a3c-b222-33a9-3734-cd19.ngrok-free.app';
+export const base_url: string = 'http://localhost:3000';
 
 @Injectable({
   providedIn: 'root',
