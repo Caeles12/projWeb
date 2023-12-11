@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-const base_url: string = 'http://localhost:3000';
+export const base_url: string =
+  'https://03e5-2a01-cb06-b831-9a3c-b222-33a9-3734-cd19.ngrok-free.app';
 
 @Injectable({
   providedIn: 'root',
@@ -73,6 +74,7 @@ export class ApiHelperService {
 
     const requestOptions = {
       params: queryParams,
+      headers: { 'ngrok-skip-browser-warning': '1' },
     };
 
     console.log(
@@ -84,7 +86,10 @@ export class ApiHelperService {
 
     let req: Observable<any>;
     if (methodWanted === 'get') {
-      req = this.http.get(url, { ...requestOptions, observe: 'response' });
+      req = this.http.get(url, {
+        ...requestOptions,
+        observe: 'response',
+      });
     } else if (methodWanted === 'post') {
       req = this.http.post(url, data, {
         ...requestOptions,
