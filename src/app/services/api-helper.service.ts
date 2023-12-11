@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-const base_url: string = 'http://localhost:3000';
+export const base_url: string = 'http://localhost:3000';
 
 @Injectable({
   providedIn: 'root',
