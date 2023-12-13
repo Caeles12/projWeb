@@ -11,6 +11,8 @@ import { TokenHttpInterceptor } from './interceptors/token.interceptor';
 import { MatTableModule } from '@angular/material/table';
 import { LoginComponent } from './login/login.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [AppComponent, UsersListComponent, LoginComponent],
   imports: [
@@ -19,6 +21,7 @@ import { LoginComponent } from './login/login.component';
     BrowserAnimationsModule,
     HttpClientModule,
     MatTableModule,
+    ReactiveFormsModule,
   ],
   providers: [
     {

@@ -1,7 +1,21 @@
-<div>
-  <label for="username">Username</label>
-  <input type="text" id="username" placeholder="username" />
-  <label for="password">Password</label>
-  <input type="password" id="password" placeholder="password" />
-  <a (click)="login()"><button>Login</button></a>
+<!-- login.component.html -->
+<div class="login-container">
+  <form [formGroup]="loginForm">
+    <label for="username">Username</label>
+    <input
+      type="text"
+      id="username"
+      formControlName="username"
+      placeholder="Enter your username"
+    />
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      formControlName="password"
+      placeholder="Enter your password"
+    />
+    <a (click)="login()"><button>Login</button></a>
+    <p></p>
+  </form>
 </div>
