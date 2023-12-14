@@ -20,7 +20,7 @@ export class UsersService {
   ) {}
 
   private async userToDTO(user: User): Promise<UserDTO> {
-    return new UserDTO(user.firstname, user.lastname, user.age);
+    return new UserDTO(user.firstname, user.lastname, user.age, user.id);
   }
 
   async getAll(): Promise<User[]> {

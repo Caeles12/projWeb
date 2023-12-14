@@ -43,7 +43,11 @@ export class AssociationsService {
     for (let user of association.users) {
       members.push(await this.userToMember(association, user));
     }
-    const associationDTO = new AssociationsDTO(association.name, members);
+    const associationDTO = new AssociationsDTO(
+      association.name,
+      members,
+      association.id,
+    );
     return associationDTO;
   }
 

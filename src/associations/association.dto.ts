@@ -5,8 +5,11 @@ export class AssociationsDTO {
 
   members: Member[];
 
-  constructor(name: string, members: Member[]) {
+  id: number;
+
+  constructor(name: string, members: Member[], id: number) {
     this.name = name;
     this.members = members;
+    this.id = id;
   }
 }
