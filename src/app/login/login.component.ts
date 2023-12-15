@@ -33,10 +33,10 @@ export class LoginComponent implements OnInit {
 
       this.api
         .post({ endpoint: '/auth/login', data: { username, password } })
-        .then((response) =>
-          this.tokenStorageService.save(response.access_token)
-        );
-      this.router.navigateByUrl('/profile');
+        .then((response) => {
+          this.tokenStorageService.save(response.access_token);
+          this.router.navigateByUrl('/profile');
+        });
     } else {
       // Le formulaire n'est pas valide, traitez cela en conséquence
       console.log(
