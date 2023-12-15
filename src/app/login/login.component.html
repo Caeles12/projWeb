@@ -1,21 +1,23 @@
-<!-- login.component.html -->
-<div class="login-container">
-  <form [formGroup]="loginForm">
-    <label for="username">Username</label>
+<form [formGroup]="loginForm" class="login-container">
+  <mat-form-field appearance="outline">
+    <mat-label>Username</mat-label>
     <input
+      matInput
       type="text"
-      id="username"
       formControlName="username"
       placeholder="Enter your username"
     />
-    <label for="password">Password</label>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
     <input
+      matInput
       type="password"
-      id="password"
       formControlName="password"
       placeholder="Enter your password"
     />
-    <a (click)="login()"><button>Login</button></a>
-    <p></p>
-  </form>
-</div>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="login()">Connexion</button>
+</form>
