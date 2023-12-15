@@ -3,9 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { authGuard } from './guards/auth.guard';
+import { AssociationsListComponent } from './associations-list/associations-list.component';
 
 const routes: Routes = [
   { path: 'users', component: UsersListComponent, canActivate: [authGuard] },
+  {
+    path: 'associations',
+    component: AssociationsListComponent,
+    canActivate: [authGuard],
+  },
   { path: 'login', component: LoginComponent },
   { path: '**', component: LoginComponent },
 ];

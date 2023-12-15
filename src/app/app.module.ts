@@ -12,14 +12,18 @@ import { MatTableModule } from '@angular/material/table';
 import { LoginComponent } from './login/login.component';
 import { NavComponent } from './nav/nav.component';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { AssociationsListComponent } from './associations-list/associations-list.component';
+
 @NgModule({
-  declarations: [AppComponent, UsersListComponent, LoginComponent, NavComponent],
+  declarations: [AppComponent, UsersListComponent, LoginComponent, NavComponent, AssociationsListComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
     MatTableModule,
+    ReactiveFormsModule,
   ],
   providers: [
     {
