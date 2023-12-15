@@ -103,6 +103,7 @@ export class UsersController {
         HttpStatus.NOT_FOUND,
       );
     }
+
     return await this.service.setUser(
       Number(parameter.id),
       input.firstname,

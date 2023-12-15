@@ -80,7 +80,7 @@ export class UsersService {
     if (lastname !== undefined) {
       user.lastname = lastname;
     }
-    if (age !== undefined) {
+    if (age !== undefined && !Number.isNaN(age)) {
       user.age = age;
     }
     user = await this.repository.save(user);
