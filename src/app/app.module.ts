@@ -9,6 +9,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenHttpInterceptor } from './interceptors/token.interceptor';
 
 import { MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
 import { LoginComponent } from './login/login.component';
 import { NavComponent } from './nav/nav.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -32,6 +33,7 @@ import { AssociationsListComponent } from './associations-list/associations-list
     HttpClientModule,
     MatTableModule,
     ReactiveFormsModule,
+    MatCardModule,
   ],
   providers: [
     {

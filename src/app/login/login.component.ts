@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiHelperService } from '../services/api-helper.service';
 import { TokenStorageService } from '../services/token-storage.service';
 
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private api: ApiHelperService,
     private tokenStorageService: TokenStorageService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +36,7 @@ export class LoginComponent implements OnInit {
         .then((response) =>
           this.tokenStorageService.save(response.access_token)
         );
+      this.router.navigateByUrl('/profile');
     } else {
       // Le formulaire n'est pas valide, traitez cela en conséquence
       console.log(
