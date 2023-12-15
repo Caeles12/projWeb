@@ -9,6 +9,7 @@ import {
   HttpStatus,
   HttpException,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
@@ -55,6 +56,13 @@ export class UsersController {
   @Get()
   async getAll(): Promise<UserDTO[]> {
     return await this.service.getAllDTO();
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('/self')
+  async getSelf(@Req() req): Promise<UserDTO> {
+    const user = req.user;
+    return this.service.getUserDTO(user.username);
   }
 
   @Get(':id')
