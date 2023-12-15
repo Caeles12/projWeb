@@ -91,12 +91,20 @@ export class UsersController {
     return userRoles;
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Put(':id')
   @ApiParam({ name: 'id', required: true })
   async setUser(
     @Body() input: UserInput,
     @Param() parameter,
+    @Req() req,
   ): Promise<UserDTO> {
+    if (parameter.id != req.user.username) {
+      throw new HttpException(
+        `You can't edit other users account!`,
+        HttpStatus.FORBIDDEN,
+      );
+    }
     if ((await this.service.getUser(Number(parameter.id))) === undefined) {
       throw new HttpException(
         `Could not find a user with the id ${parameter.id}`,
@@ -109,6 +117,7 @@ export class UsersController {
       input.firstname,
       input.lastname,
       Number(input.age),
+      input.password,
     );
   }
 

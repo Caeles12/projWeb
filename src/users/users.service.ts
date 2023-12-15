@@ -70,6 +70,7 @@ export class UsersService {
     firstname: string | undefined,
     lastname: string | undefined,
     age: number,
+    password: string,
   ): Promise<UserDTO> {
     var user = await this.repository.findOne({
       where: { id: userId },
@@ -82,6 +83,11 @@ export class UsersService {
     }
     if (age !== undefined && !Number.isNaN(age)) {
       user.age = age;
+    }
+    if (password !== undefined) {
+      const saltOrRounds = 10;
+      const hash = await bcrypt.hash(password, saltOrRounds);
+      user.password = hash;
     }
     user = await this.repository.save(user);
     return this.userToDTO(user);
