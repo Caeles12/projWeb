@@ -10,6 +10,8 @@ import { TokenHttpInterceptor } from './interceptors/token.interceptor';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { LoginComponent } from './login/login.component';
 import { NavComponent } from './nav/nav.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -34,6 +36,8 @@ import { AssociationsListComponent } from './associations-list/associations-list
     MatTableModule,
     ReactiveFormsModule,
     MatCardModule,
+    MatInputModule,
+    MatButtonModule,
   ],
   providers: [
     {
