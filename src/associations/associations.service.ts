@@ -32,6 +32,7 @@ export class AssociationsService {
       user.firstname,
       user.age,
       role.role,
+      user.id,
     );
     return member;
   }
