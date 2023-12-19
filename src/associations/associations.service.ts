@@ -10,6 +10,7 @@ import { AssociationsDTO } from './association.dto';
 import { Member } from './association.member';
 import { Minute } from 'src/minutes/minute.entity';
 import { MinutesService } from 'src/minutes/minutes.service';
+import { MinuteDTO } from 'src/minutes/minute.dto';
 
 @Injectable()
 export class AssociationsService {
@@ -84,12 +85,18 @@ export class AssociationsService {
     id: number,
     sort?: string,
     order?: string,
-  ): Promise<Minute[]> {
-    return this.minuteService.getAssociationMinutes(
+  ): Promise<MinuteDTO[]> {
+    const minutes = await this.minuteService.getAssociationMinutes(
       await this.getAssociation(id),
       sort,
       order,
     );
+
+    var minutesDTO: MinuteDTO[] = [];
+    for (let m of minutes) {
+      minutesDTO.push(await this.minuteService.minuteToDTO(m));
+    }
+    return minutesDTO;
   }
 
   async setAssociation(

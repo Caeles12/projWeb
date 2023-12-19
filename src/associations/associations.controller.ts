@@ -16,6 +16,7 @@ import { ApiParam, ApiProperty, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AssociationsDTO } from './association.dto';
 import { Member } from './association.member';
 import { Minute } from 'src/minutes/minute.entity';
+import { MinuteDTO } from 'src/minutes/minute.dto';
 
 export class SortInput {
   @ApiProperty({
@@ -111,7 +112,7 @@ export class AssociationsController {
     enum: SortOrder,
   })
   @ApiParam({ name: 'id', required: true })
-  async getMinutes(@Query() query, @Param() parameter): Promise<Minute[]> {
+  async getMinutes(@Query() query, @Param() parameter): Promise<MinuteDTO[]> {
     if (
       (await this.assoService.getAssociation(Number(parameter.id))) ===
       undefined
