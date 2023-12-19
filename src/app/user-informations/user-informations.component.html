@@ -1,16 +1,24 @@
-<div class="profileContainer">
-  <mat-card *ngIf="user" class="userProfileCard">
-    <mat-card-header>
-      <mat-card-title>Profile : </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
+<div class="container">
+  <div class="header">
+    <h2>Informations Utilisateur</h2>
+  </div>
+
+  <div *ngIf="user">
+    <div class="info-section">
+      <h3>Informations personnelles :</h3>
       <div>
         <p><b>Nom:</b> {{ user.lastname }}</p>
         <p><b>Prénom:</b> {{ user.firstname }}</p>
         <p><b>Age:</b> {{ user.age }}</p>
       </div>
 
-      <table mat-table [dataSource]="roles">
+      <h3>Associations :</h3>
+
+      <table
+        mat-table
+        [dataSource]="roles"
+        class="mat-elevation-z8 members-table"
+      >
         <ng-container matColumnDef="association">
           <th mat-header-cell *matHeaderCellDef>Association</th>
           <td mat-cell *matCellDef="let role">{{ role.associationName }}</td>
@@ -24,6 +32,6 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
-    </mat-card-content>
-  </mat-card>
+    </div>
+  </div>
 </div>

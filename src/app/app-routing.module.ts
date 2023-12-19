@@ -8,6 +8,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { UserInformationsComponent } from './user-informations/user-informations.component';
 import { AssociationInformationsComponent } from './association-informations/association-informations.component';
+import { MinuteInformationsComponent } from './minute-informations/minute-informations.component';
 
 const routes: Routes = [
   { path: 'users', component: UsersListComponent, canActivate: [authGuard] },
@@ -23,6 +24,11 @@ const routes: Routes = [
   {
     path: 'associations/:id',
     component: AssociationInformationsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'minute/:id',
+    component: MinuteInformationsComponent,
     canActivate: [authGuard],
   },
   {
