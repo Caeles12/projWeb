@@ -21,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AssociationsListComponent } from './associations-list/associations-list.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { UserInformationsComponent } from './user-informations/user-informations.component';
+import { AssociationInformationsComponent } from './association-informations/association-informations.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { UserInformationsComponent } from './user-informations/user-informations
     UserProfileComponent,
     EditProfileComponent,
     UserInformationsComponent,
+    AssociationInformationsComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ interface User {
 interface Role {
   role: string;
   associationName: string;
+  associationId: number;
 }
 
 @Component({
@@ -25,11 +26,7 @@ export class UserInformationsComponent {
   roles: Role[] = [];
   displayedColumns: string[] = ['association', 'role'];
 
-  constructor(
-    private api: ApiHelperService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private api: ApiHelperService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((res) => {
