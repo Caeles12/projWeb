@@ -7,6 +7,7 @@ import { AssociationsListComponent } from './associations-list/associations-list
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { UserInformationsComponent } from './user-informations/user-informations.component';
+import { AssociationInformationsComponent } from './association-informations/association-informations.component';
 
 const routes: Routes = [
   { path: 'users', component: UsersListComponent, canActivate: [authGuard] },
@@ -18,6 +19,11 @@ const routes: Routes = [
   {
     path: 'associations',
     component: AssociationsListComponent,
+  },
+  {
+    path: 'associations/:id',
+    component: AssociationInformationsComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'profile',
