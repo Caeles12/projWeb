@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenStorageService } from './token-storage.service';
+import { Router } from '@angular/router';
 
 export const base_url: string = 'http://localhost:3000';
 
@@ -9,7 +10,11 @@ export const base_url: string = 'http://localhost:3000';
   providedIn: 'root',
 })
 export class ApiHelperService {
-  constructor(private http: HttpClient, private service: TokenStorageService) {}
+  constructor(
+    private http: HttpClient,
+    private service: TokenStorageService,
+    private router: Router
+  ) {}
 
   public get({
     endpoint,
@@ -116,6 +121,7 @@ export class ApiHelperService {
       const errorCode = error.error.statusCode;
       if (errorCode == 401) {
         this.service.clear();
+        this.router.navigateByUrl('/login');
       }
       return null;
     }

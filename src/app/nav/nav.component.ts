@@ -8,19 +8,36 @@ import { Router } from '@angular/router';
   styleUrl: './nav.component.css',
 })
 export class NavComponent implements OnInit {
-  isLogged: boolean = false;
+  opened = false;
 
   constructor(
     private tokenStorageService: TokenStorageService,
     private router: Router
   ) {}
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-    this.isLogged = this.tokenStorageService.isLogged();
+  get isLogged(): boolean {
+    return this.tokenStorageService.isLogged();
   }
 
   logout(): void {
     this.tokenStorageService.clear();
-    this.router.navigateByUrl('/login');
+  }
+
+  toggleSideBar() {
+    this.opened = !this.opened;
+    console.log(this.opened);
+  }
+
+  navigateAssociations(): void {
+    this.router.navigateByUrl('/associations');
+  }
+
+  navigateUsers(): void {
+    this.router.navigateByUrl('/users');
+  }
+
+  navigateProfile(): void {
+    this.router.navigateByUrl('/profile');
   }
 }

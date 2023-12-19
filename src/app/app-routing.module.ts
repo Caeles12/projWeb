@@ -19,6 +19,7 @@ const routes: Routes = [
   {
     path: 'associations',
     component: AssociationsListComponent,
+    canActivate: [authGuard],
   },
   {
     path: 'associations/:id',
