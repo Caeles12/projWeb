@@ -60,7 +60,7 @@ export class UsersService {
       let assocName = (
         await this.associationService.getAssociation(role.idAssociation)
       ).name;
-      userRoles.push(new UserRole(assocName, role.role));
+      userRoles.push(new UserRole(assocName, role.idAssociation, role.role));
     }
     return userRoles;
   }
