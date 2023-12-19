@@ -37,9 +37,7 @@ export class AssociationsService {
     return member;
   }
 
-  private async associationToDTO(
-    association: Association,
-  ): Promise<AssociationsDTO> {
+  async associationToDTO(association: Association): Promise<AssociationsDTO> {
     let members = [];
     for (let user of association.users) {
       members.push(await this.userToMember(association, user));

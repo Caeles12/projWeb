@@ -6,6 +6,8 @@ import { Minute } from './minute.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { Association } from 'src/associations/association.entity';
+import { MinuteDTO } from './minute.dto';
+import { Voter } from './minutes.voter';
 
 @Injectable()
 export class MinutesService {
@@ -17,6 +19,24 @@ export class MinutesService {
     @InjectRepository(Minute)
     private repository: Repository<Minute>,
   ) {}
+
+  async usersToVoters(users: User[]): Promise<Voter[]> {
+    var voters: Voter[] = [];
+    for (let u of users) {
+      voters.push(new Voter(u.lastname, u.firstname, u.age, u.id));
+    }
+    return voters;
+  }
+
+  async minuteToDTO(minute: Minute): Promise<MinuteDTO> {
+    return new MinuteDTO(
+      minute.id,
+      minute.date,
+      minute.content,
+      await this.assoService.associationToDTO(minute.association),
+      await this.usersToVoters(minute.voters),
+    );
+  }
 
   async getAll(): Promise<Minute[]> {
     let minutes = await this.repository.find();
