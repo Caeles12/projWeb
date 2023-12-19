@@ -5,6 +5,7 @@ import { UsersListComponent } from './users-list/users-list.component';
 import { authGuard } from './guards/auth.guard';
 import { AssociationsListComponent } from './associations-list/associations-list.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 const routes: Routes = [
   { path: 'users', component: UsersListComponent, canActivate: [authGuard] },
@@ -15,6 +16,11 @@ const routes: Routes = [
   {
     path: 'profile',
     component: UserProfileComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'profile/edit',
+    component: EditProfileComponent,
     canActivate: [authGuard],
   },
   { path: 'login', component: LoginComponent },

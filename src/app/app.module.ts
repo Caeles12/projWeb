@@ -12,12 +12,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './login/login.component';
 import { NavComponent } from './nav/nav.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { AssociationsListComponent } from './associations-list/associations-list.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { AssociationsListComponent } from './associations-list/associations-list
     NavComponent,
     AssociationsListComponent,
     UserProfileComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,7 @@ import { AssociationsListComponent } from './associations-list/associations-list
     MatCardModule,
     MatInputModule,
     MatButtonModule,
+    MatIconModule,
   ],
   providers: [
     {

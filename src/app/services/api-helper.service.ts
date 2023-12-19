@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { TokenStorageService } from './token-storage.service';
 
 export const base_url: string = 'http://localhost:3000';
 
@@ -8,7 +9,7 @@ export const base_url: string = 'http://localhost:3000';
   providedIn: 'root',
 })
 export class ApiHelperService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private service: TokenStorageService) {}
 
   public get({
     endpoint,
@@ -107,8 +108,16 @@ export class ApiHelperService {
       throw new Error(`error calling ${url} with method ${methodWanted}`);
     }
 
-    return await lastValueFrom(req).then((res) => {
-      return res.body;
-    });
+    try {
+      return await lastValueFrom(req).then((res) => {
+        return res.body;
+      });
+    } catch (error: any) {
+      const errorCode = error.error.statusCode;
+      if (errorCode == 401) {
+        this.service.clear();
+      }
+      return null;
+    }
   }
 }

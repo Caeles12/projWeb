@@ -17,7 +17,11 @@ export class LoginComponent implements OnInit {
     private tokenStorageService: TokenStorageService,
     private formBuilder: FormBuilder,
     private router: Router
-  ) {}
+  ) {
+    if (this.tokenStorageService.isLogged()) {
+      this.router.navigate(['/profile']); // Remplacez par le chemin de votre choix
+    }
+  }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({

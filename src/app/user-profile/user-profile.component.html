@@ -1,14 +1,23 @@
 <div class="profileContainer">
-<mat-card *ngIf="user" class="userProfileCard">
-  <mat-card-header>
-    <mat-card-title>Bonjour {{user.firstname}}!</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <div>
-      <p><b>Nom:</b> {{user.lastname}}</p>
-      <p><b>Prénom:</b> {{user.firstname}}</p>
-      <p><b>Age:</b> {{user.age}}</p>
-    </div>
-  </mat-card-content>
-</mat-card>
+  <mat-card *ngIf="user" class="userProfileCard">
+    <mat-card-header>
+      <mat-card-title>Bonjour {{ user.firstname }}!</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <p><b>Nom:</b> {{ user.lastname }}</p>
+        <p><b>Prénom:</b> {{ user.firstname }}</p>
+        <p><b>Age:</b> {{ user.age }}</p>
+      </div>
+    </mat-card-content>
+    <button
+      mat-mini-fab
+      color="primary"
+      aria-label="Example icon button with a menu icon"
+      class="badge"
+      (click)="editUser()"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+  </mat-card>
 </div>
