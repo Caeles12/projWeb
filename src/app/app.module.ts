@@ -13,7 +13,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 import { LoginComponent } from './login/login.component';
+import { MatDividerModule } from '@angular/material/divider';
 import { NavComponent } from './nav/nav.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
@@ -48,6 +52,10 @@ import { MinuteInformationsComponent } from './minute-informations/minute-inform
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatDividerModule,
+    MatListModule,
   ],
   providers: [
     {
