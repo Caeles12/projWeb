@@ -19,6 +19,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { AssociationsListComponent } from './associations-list/associations-list.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { AssociationsListComponent } from './associations-list/associations-list
     NavComponent,
     AssociationsListComponent,
     UserProfileComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,

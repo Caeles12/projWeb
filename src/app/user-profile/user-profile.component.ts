@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiHelperService } from '../services/api-helper.service';
+import { Router } from '@angular/router';
 
 interface User {
   id: number;
@@ -16,11 +17,15 @@ interface User {
 export class UserProfileComponent implements OnInit {
   user?: User;
 
-  constructor(private api: ApiHelperService) {}
+  constructor(private api: ApiHelperService, private router: Router) {}
 
   ngOnInit(): void {
     this.api
       .get({ endpoint: '/users/self' })
       .then((response) => (this.user = response));
+  }
+
+  editUser(): void {
+    this.router.navigateByUrl('/profile/edit');
   }
 }
