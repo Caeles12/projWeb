@@ -1,0 +1,16 @@
+/* login.component.css */
+.login-container {
+    max-width: 215px;
+    margin: 0 auto;
+    margin-top: 30vh;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+  }
+  
+  input[type="text"],
+  input[type="password"],
+  button {
+    width: 100%;
+  }
+  
