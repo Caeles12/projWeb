@@ -1,0 +1,37 @@
+<nav>
+  <mat-toolbar></mat-toolbar>
+
+  <mat-toolbar class="sticky">
+    <button mat-icon-button aria-label="Example icon-button with menu icon" (click)="toggleSideBar()" *ngIf="isLogged">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Administration</span>
+    <span class="spacer"></span>
+    <button (click)="logout()" mat-icon-button aria-label="Example icon-button with menu icon" *ngIf="isLogged">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </mat-toolbar>
+</nav>
+<mat-drawer-container *ngIf="isLogged">
+  <mat-sidenav #sidenav class="side-nav-left" position="start" role="directory" [opened]="opened">
+    <div class="backdrop" (click)="opened = false"></div>
+      <div class="side-nav-content">
+        <mat-action-list>
+          <mat-list-item (click)="navigateAssociations()">
+            <mat-icon matListItemIcon> business</mat-icon>
+            <div matListItemTitle>Associations</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item (click)="navigateUsers()">
+            <mat-icon matListItemIcon>group</mat-icon>
+            <div matListItemTitle>Utilisateurs</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item (click)="navigateProfile()">
+            <mat-icon matListItemIcon>person</mat-icon>
+            <div matListItemTitle>Profil</div>
+          </mat-list-item>
+        </mat-action-list>        
+      </div>
+  </mat-sidenav>
+</mat-drawer-container>
