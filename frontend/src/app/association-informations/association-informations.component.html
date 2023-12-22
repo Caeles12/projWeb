@@ -1,59 +1,66 @@
-<div class="profileContainer">
-  <mat-card *ngIf="association" class="userProfileCard">
-    <mat-card-header>
-      <mat-card-title>Profile : </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div>
-        <p><b>Nom:</b> {{ association.name }}</p>
-      </div>
-      <h4>Membres :</h4>
-      <div>
-        <table mat-table [dataSource]="members">
-          <ng-container matColumnDef="membre">
-            <th mat-header-cell *matHeaderCellDef>Membres</th>
-            <td mat-cell *matCellDef="let members">
-              {{ members.name }}, {{ members.firstname }}
-            </td>
-          </ng-container>
+<div class="container">
+  <div class="header">
+    <h2>Informations Association</h2>
+  </div>
 
-          <ng-container matColumnDef="role">
-            <th mat-header-cell *matHeaderCellDef>Roles</th>
-            <td mat-cell *matCellDef="let members">{{ members.role }}</td>
-          </ng-container>
+  <div *ngIf="association">
+    <div>
+      <p><b>Nom :</b> {{ association.name }}</p>
+    </div>
+    <h4>Membres :</h4>
+    <div class="info-section">
+      <table
+        mat-table
+        [dataSource]="members"
+        class="mat-elevation-z8 members-table"
+      >
+        <ng-container matColumnDef="membre">
+          <th mat-header-cell *matHeaderCellDef>Membres</th>
+          <td mat-cell *matCellDef="let members">
+            {{ members.name }}, {{ members.firstname }}
+          </td>
+        </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        </table>
-      </div>
-      <h4>Minutes :</h4>
-      <div>
-        <table mat-table [dataSource]="minutes">
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef>MinuteId</th>
-            <td mat-cell *matCellDef="let minutes">
-              {{ minutes.id }}
-            </td>
-          </ng-container>
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef>Roles</th>
+          <td mat-cell *matCellDef="let members">{{ members.role }}</td>
+        </ng-container>
 
-          <ng-container matColumnDef="date">
-            <th mat-header-cell *matHeaderCellDef>Date</th>
-            <td mat-cell *matCellDef="let minutes">{{ minutes.date }}</td>
-          </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <h4>Minutes :</h4>
+    <div class="info-section">
+      <table
+        mat-table
+        [dataSource]="minutes"
+        class="mat-elevation-z8 members-table"
+      >
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>MinuteId</th>
+          <td mat-cell *matCellDef="let minutes">
+            {{ minutes.id }}
+          </td>
+        </ng-container>
 
-          <ng-container matColumnDef="voters">
-            <th mat-header-cell *matHeaderCellDef>Votants</th>
-            <td mat-cell *matCellDef="let minutes">
-              <ng-container *ngFor="let user of minutes.voters">
-                {{ user.firstname }}, {{ user.lastname }}<br />
-              </ng-container>
-            </td>
-          </ng-container>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let minutes">{{ minutes.date }}</td>
+        </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
-        </table>
-      </div>
-    </mat-card-content>
-  </mat-card>
+        <ng-container matColumnDef="voters">
+          <th mat-header-cell *matHeaderCellDef>Votants</th>
+          <td mat-cell *matCellDef="let minutes">
+            <ng-container *ngFor="let user of minutes.voters">
+              {{ user.firstname }}, {{ user.name }}<br />
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
+      </table>
+    </div>
+  </div>
 </div>
