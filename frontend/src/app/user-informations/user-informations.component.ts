@@ -26,7 +26,11 @@ export class UserInformationsComponent {
   roles: Role[] = [];
   displayedColumns: string[] = ['association', 'role'];
 
-  constructor(private api: ApiHelperService, private route: ActivatedRoute) {}
+  constructor(
+    private api: ApiHelperService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((res) => {
@@ -38,5 +42,10 @@ export class UserInformationsComponent {
         .get({ endpoint: '/users/' + id + '/roles' })
         .then((response) => (this.roles = response));
     });
+  }
+
+  removeUser(): void {
+    this.api.delete({ endpoint: '/users/' + this.user!.id });
+    this.router.navigateByUrl('/users');
   }
 }
