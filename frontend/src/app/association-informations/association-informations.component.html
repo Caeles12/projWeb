@@ -71,10 +71,20 @@
         mat-mini-fab
         color="warn"
         aria-label="Delete the association"
+        class="badge"
         (click)="delete()"
       >
         <mat-icon>delete</mat-icon>
       </button>
     </div>
+    <button
+      mat-mini-fab
+      color="primary"
+      aria-label="Example icon button with a menu icon"
+      class="modifie-role"
+      (click)="editRoles()"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
   </div>
 </div>

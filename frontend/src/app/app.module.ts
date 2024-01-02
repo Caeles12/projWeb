@@ -31,6 +31,7 @@ import { UserInformationsComponent } from './user-informations/user-informations
 import { AssociationInformationsComponent } from './association-informations/association-informations.component';
 import { MinuteInformationsComponent } from './minute-informations/minute-informations.component';
 import { AssociationCreationComponent } from './association-creation/association-creation.component';
+import { AssociationEditionComponent } from './association-edition/association-edition.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { AssociationCreationComponent } from './association-creation/association
     AssociationInformationsComponent,
     MinuteInformationsComponent,
     AssociationCreationComponent,
+    AssociationEditionComponent,
   ],
   imports: [
     BrowserModule,

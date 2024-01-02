@@ -75,4 +75,10 @@ export class AssociationInformationsComponent {
         this.router.navigateByUrl('/associations');
       });
   }
+
+  editRoles(): void {
+    this.router.navigateByUrl(
+      '/associations/' + this.association!.id + '/edit',
+    );
+  }
 }
