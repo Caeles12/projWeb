@@ -28,7 +28,7 @@ const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'minute/:id',
+    path: 'minutes/:id',
     component: MinuteInformationsComponent,
     canActivate: [authGuard],
   },
