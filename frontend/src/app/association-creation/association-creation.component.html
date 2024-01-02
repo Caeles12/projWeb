@@ -1,0 +1,48 @@
+<mat-stepper orientation="horizontal" [linear]="true" #stepper>
+  <mat-step [stepControl]="createAssociationForm1">
+<form [formGroup]="createAssociationForm1" class="edit-container">
+  <mat-form-field appearance="outline">
+    <mat-label>Nom de l'association</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="name"
+      placeholder="Nom de l'association"
+      required
+    />
+  </mat-form-field>
+  <div>
+    <button mat-button matStepperNext>Next</button>
+  </div>
+</form>
+</mat-step>
+<mat-step [stepControl]="createAssociationForm2">
+<form [formGroup]="createAssociationForm2" class="edit-container">
+  <mat-form-field class="example-chip-list" appearance="outline">
+    <mat-label>Members of the association</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Members selection">
+      @for (user of users; track user) {
+        <mat-chip-row (removed)="remove(user)">
+          {{idToUser(user)!.name}}
+          <button matChipRemove [attr.aria-label]="'remove ' + user">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+    </mat-chip-grid>
+    <input placeholder="Add member..." #userInput [formControl]="userCtrl"
+      [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"/>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      @for (user of filteredUsers | async; track user) {
+        <mat-option [value]="user.name">{{user.name}}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  <div>
+    <button mat-button matStepperPrevious>Back</button>
+    <button mat-button (click)="send()">Send</button>
+  </div>
+</form>
+</mat-step>
+</mat-stepper>

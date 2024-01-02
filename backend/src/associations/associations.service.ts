@@ -28,13 +28,19 @@ export class AssociationsService {
     user: User,
   ): Promise<Member> {
     const role = await this.roleService.get(user.id, association.id);
+    var userRole = null;
+    if (role !== null) {
+      userRole = role.role;
+    }
+
     const member = new Member(
       user.lastname,
       user.firstname,
       user.age,
-      role.role,
+      userRole,
       user.id,
     );
+
     return member;
   }
 
