@@ -1,6 +1,12 @@
 import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  Form,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiHelperService } from '../services/api-helper.service';
 import { Observable, map, startWith } from 'rxjs';
@@ -25,9 +31,11 @@ export class AssociationCreationComponent {
   filteredUsers: Observable<User[]>;
   users: number[] = [];
   allUsers: User[] = [];
+  roles!: FormArray;
 
   createAssociationForm1!: FormGroup;
   createAssociationForm2!: FormGroup;
+  createAssociationForm3!: FormGroup;
 
   @ViewChild('userInput') userInput?: ElementRef<HTMLInputElement>;
 
@@ -48,6 +56,10 @@ export class AssociationCreationComponent {
     this.createAssociationForm2 = this.formBuilder.group({
       users: this.userCtrl,
     });
+    this.createAssociationForm3 = this.formBuilder.group({
+      roles: this.formBuilder.array([]),
+    });
+    this.roles = this.createAssociationForm3.get('roles') as FormArray;
   }
 
   ngOnInit(): void {
@@ -60,6 +72,20 @@ export class AssociationCreationComponent {
         return user;
       });
     });
+  }
+
+  generateRolesForm(): void {
+    this.createAssociationForm3 = this.formBuilder.group({
+      roles: this.formBuilder.array([]),
+    });
+    this.roles = this.createAssociationForm3.get('roles') as FormArray;
+    for (let u of this.users) {
+      const roleForm = this.formBuilder.group({
+        userId: u,
+        role: [''],
+      });
+      this.roles.push(roleForm);
+    }
   }
 
   remove(user: number): void {
@@ -115,10 +141,13 @@ export class AssociationCreationComponent {
   send(): void {
     if (
       this.createAssociationForm1.valid &&
-      this.createAssociationForm2.valid
+      this.createAssociationForm2.valid &&
+      this.createAssociationForm3.valid
     ) {
       // Le formulaire est valide, procédez à l'action de connexion
       var name = this.createAssociationForm1.value.name;
+      var roles = this.roles.value;
+      console.log(roles);
 
       this.api
         .post({
@@ -128,7 +157,17 @@ export class AssociationCreationComponent {
             idUsers: this.users,
           },
         })
-        .then((response) => {
+        .then(async (response) => {
+          for (let role of roles) {
+            await this.api.post({
+              endpoint: '/roles',
+              data: {
+                name: role.role,
+                idUser: role.userId,
+                idAssociation: response.id,
+              },
+            });
+          }
           this.router.navigateByUrl('/associations');
         });
     } else {
