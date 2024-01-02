@@ -129,6 +129,9 @@ export class AssociationsService {
 
   async deleteAssociation(assocId: number): Promise<boolean> {
     const result = await this.repository.delete(assocId);
+    for (let role of await this.roleService.getAllRolesOfAssociation(assocId)) {
+      this.roleService.deleteRole(role.idUser, role.idAssociation);
+    }
     return result.affected > 0;
   }
 

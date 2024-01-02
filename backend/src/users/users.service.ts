@@ -54,7 +54,7 @@ export class UsersService {
     const user = await this.repository.findOne({
       where: { id: userId },
     });
-    const roles = await this.rolesService.getAllRoles(userId);
+    const roles = await this.rolesService.getAllRolesOfUser(userId);
     let userRoles: UserRole[] = [];
     for (let role of roles) {
       let assocName = (
@@ -95,6 +95,9 @@ export class UsersService {
 
   async deleteUser(userId: number): Promise<boolean> {
     const result = await this.repository.delete(userId);
+    for (let role of await this.rolesService.getAllRolesOfUser(userId)) {
+      this.rolesService.deleteRole(role.idUser, role.idAssociation);
+    }
     return result.affected > 0;
   }
 

@@ -20,8 +20,15 @@ export class RolesService {
     return roles;
   }
 
-  async getAllRoles(userId: number): Promise<Role[]> {
+  async getAllRolesOfUser(userId: number): Promise<Role[]> {
     let roles = await this.repository.find({ where: { idUser: userId } });
+    return roles;
+  }
+
+  async getAllRolesOfAssociation(assocId: number): Promise<Role[]> {
+    let roles = await this.repository.find({
+      where: { idAssociation: assocId },
+    });
     return roles;
   }
 
