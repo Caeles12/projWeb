@@ -36,6 +36,7 @@ import { AssociationCreationComponent } from './association-creation/association
 import { MinuteCreationComponent } from './minute-creation/minute-creation.component';
 
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { UserCreationComponent } from './user-creation/user-creation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +51,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     MinuteInformationsComponent,
     AssociationCreationComponent,
     MinuteCreationComponent,
+    UserCreationComponent,
   ],
   imports: [
     BrowserModule,
