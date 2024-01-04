@@ -29,6 +29,7 @@ interface User {
   firstname: string;
   lastname: string;
   age: number;
+  role?: string;
 }
 
 @Component({
@@ -49,6 +50,11 @@ export class MinuteInformationsComponent {
       const id = +res.get('id')!;
       this.api.get({ endpoint: '/minutes/' + id }).then((response) => {
         this.minute = response;
+        for (let i = 0; i < this.minute!.voters.length; i++) {
+          this.minute!.voters[i].role = this.minute!.association.members.find(
+            (x) => x.id === this.minute!.voters[i].id,
+          )?.role;
+        }
       });
     });
   }
