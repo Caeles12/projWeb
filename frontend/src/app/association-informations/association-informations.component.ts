@@ -81,4 +81,10 @@ export class AssociationInformationsComponent {
       '/associations/' + this.association!.id + '/edit',
     );
   }
+
+  addMinute(): void {
+    this.router.navigateByUrl(
+      '/associations/' + this.association!.id + '/minute',
+    );
+  }
 }

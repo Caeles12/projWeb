@@ -11,9 +11,16 @@ import { AssociationInformationsComponent } from './association-informations/ass
 import { MinuteInformationsComponent } from './minute-informations/minute-informations.component';
 import { AssociationCreationComponent } from './association-creation/association-creation.component';
 import { AssociationEditionComponent } from './association-edition/association-edition.component';
+import { MinuteCreationComponent } from './minute-creation/minute-creation.component';
+import { UserCreationComponent } from './user-creation/user-creation.component';
 
 const routes: Routes = [
   { path: 'users', component: UsersListComponent, canActivate: [authGuard] },
+  {
+    path: 'users/new',
+    component: UserCreationComponent,
+    canActivate: [authGuard],
+  },
   {
     path: 'users/:id',
     component: UserInformationsComponent,
@@ -37,6 +44,11 @@ const routes: Routes = [
   {
     path: 'associations/:id',
     component: AssociationInformationsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'associations/:id/minute',
+    component: MinuteCreationComponent,
     canActivate: [authGuard],
   },
   {

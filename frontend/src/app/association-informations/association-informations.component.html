@@ -33,7 +33,17 @@
       </table>
     </div>
     <h4>Minutes :</h4>
+
     <div class="info-section">
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Example icon button with a menu icon"
+        class="badge"
+        (click)="addMinute()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
       <table
         mat-table
         [dataSource]="minutes"
@@ -81,7 +91,7 @@
       mat-mini-fab
       color="primary"
       aria-label="Example icon button with a menu icon"
-      class="modifie-role"
+      class="badge"
       (click)="editRoles()"
     >
       <mat-icon>edit</mat-icon>

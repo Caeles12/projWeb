@@ -19,6 +19,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { LoginComponent } from './login/login.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { NavComponent } from './nav/nav.component';
@@ -32,7 +34,10 @@ import { AssociationInformationsComponent } from './association-informations/ass
 import { MinuteInformationsComponent } from './minute-informations/minute-informations.component';
 import { AssociationCreationComponent } from './association-creation/association-creation.component';
 import { AssociationEditionComponent } from './association-edition/association-edition.component';
+import { MinuteCreationComponent } from './minute-creation/minute-creation.component';
 
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { UserCreationComponent } from './user-creation/user-creation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,6 +52,8 @@ import { AssociationEditionComponent } from './association-edition/association-e
     MinuteInformationsComponent,
     AssociationCreationComponent,
     AssociationEditionComponent,
+    MinuteCreationComponent,
+    UserCreationComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +73,8 @@ import { AssociationEditionComponent } from './association-edition/association-e
     MatChipsModule,
     MatAutocompleteModule,
     MatStepperModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
     {
@@ -73,6 +82,7 @@ import { AssociationEditionComponent } from './association-edition/association-e
       useClass: TokenHttpInterceptor,
       multi: true,
     },
+    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
   ],
   bootstrap: [AppComponent],
 })

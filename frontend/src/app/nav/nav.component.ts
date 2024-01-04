@@ -12,7 +12,7 @@ export class NavComponent implements OnInit {
 
   constructor(
     private tokenStorageService: TokenStorageService,
-    private router: Router
+    private router: Router,
   ) {}
   ngOnInit(): void {}
 
@@ -22,6 +22,7 @@ export class NavComponent implements OnInit {
 
   logout(): void {
     this.tokenStorageService.clear();
+    this.router.navigateByUrl('/login');
   }
 
   toggleSideBar() {
