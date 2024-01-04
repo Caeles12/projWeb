@@ -1,0 +1,31 @@
+<form [formGroup]="editForm" (ngSubmit)="update()" class="edit-form">
+  <mat-form-field appearance="outline">
+    <mat-label>Nom de l'association</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="nomAsso"
+      placeholder="Nom de l'association"
+      required
+    />
+  </mat-form-field>
+  <div *ngIf="association" formArrayName="newRoles">
+    <div
+      *ngFor="let role of newRoles!.controls; let i = index"
+      [formGroupName]="i"
+    >
+      <mat-form-field class="role-field" appearance="outline">
+        <mat-label>Rôle de {{ idToUser(role.value.userId)?.name }}</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="role"
+          placeholder="Rôle"
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="primary" type="submit">Update</button>
+  </div>
+</form>

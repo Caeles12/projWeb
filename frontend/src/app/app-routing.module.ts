@@ -10,6 +10,7 @@ import { UserInformationsComponent } from './user-informations/user-informations
 import { AssociationInformationsComponent } from './association-informations/association-informations.component';
 import { MinuteInformationsComponent } from './minute-informations/minute-informations.component';
 import { AssociationCreationComponent } from './association-creation/association-creation.component';
+import { AssociationEditionComponent } from './association-edition/association-edition.component';
 import { MinuteCreationComponent } from './minute-creation/minute-creation.component';
 import { UserCreationComponent } from './user-creation/user-creation.component';
 
@@ -33,6 +34,11 @@ const routes: Routes = [
   {
     path: 'associations/new',
     component: AssociationCreationComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'associations/:id/edit',
+    component: AssociationEditionComponent,
     canActivate: [authGuard],
   },
   {

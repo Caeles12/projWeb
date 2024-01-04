@@ -76,6 +76,12 @@ export class AssociationInformationsComponent {
       });
   }
 
+  editRoles(): void {
+    this.router.navigateByUrl(
+      '/associations/' + this.association!.id + '/edit',
+    );
+  }
+
   addMinute(): void {
     this.router.navigateByUrl(
       '/associations/' + this.association!.id + '/minute',
