@@ -21,6 +21,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LoginComponent } from './login/login.component';
@@ -78,6 +79,7 @@ import { UserCreationComponent } from './user-creation/user-creation.component';
     MatStepperModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatDialogModule,
     MatSelectModule,
     MatSnackBarModule,
   ],

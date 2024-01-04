@@ -147,7 +147,6 @@ export class AssociationCreationComponent {
       // Le formulaire est valide, procédez à l'action de connexion
       var name = this.createAssociationForm1.value.name;
       var roles = this.roles.value;
-      console.log(roles);
 
       this.api
         .post({
