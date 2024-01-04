@@ -13,7 +13,7 @@ export class ApiHelperService {
   constructor(
     private http: HttpClient,
     private service: TokenStorageService,
-    private router: Router
+    private router: Router,
   ) {}
 
   public get({
@@ -86,7 +86,7 @@ export class ApiHelperService {
       method,
       url,
       JSON.stringify(requestOptions),
-      JSON.stringify(data)
+      JSON.stringify(data),
     );
 
     let req: Observable<any>;
@@ -123,7 +123,7 @@ export class ApiHelperService {
         this.service.clear();
         this.router.navigateByUrl('/login');
       }
-      return null;
+      return error;
     }
   }
 }

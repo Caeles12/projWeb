@@ -27,7 +27,6 @@ export class NavComponent implements OnInit {
 
   toggleSideBar() {
     this.opened = !this.opened;
-    console.log(this.opened);
   }
 
   navigateAssociations(): void {

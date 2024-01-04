@@ -21,6 +21,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { LoginComponent } from './login/login.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { NavComponent } from './nav/nav.component';
@@ -75,6 +76,7 @@ import { UserCreationComponent } from './user-creation/user-creation.component';
     MatStepperModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatDialogModule,
   ],
   providers: [
     {
