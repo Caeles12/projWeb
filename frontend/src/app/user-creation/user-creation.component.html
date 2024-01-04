@@ -1,0 +1,54 @@
+<form [formGroup]="editProfileForm" class="edit-container">
+  <h1>Nouveau Utilisateur:</h1>
+  <mat-form-field appearance="outline">
+    <mat-label>Prénom</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="firstname"
+      placeholder="Entrez le prénom"
+      required
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nom</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="lastname"
+      placeholder="Entrez le nom"
+      required
+    />
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline">
+    <mat-label>Âge</mat-label>
+    <input
+      matInput
+      type="number"
+      min="0"
+      inputmode="numeric"
+      formControlName="age"
+      placeholder="Entrez l'âge"
+      required
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Mot de passe</mat-label>
+    <input
+      matInput
+      type="password"
+      formControlName="password"
+      placeholder="Entrez le mot de passe"
+      required
+    />
+  </mat-form-field>
+
+  <div class="button-row">
+    <button mat-raised-button color="primary" (click)="createUser()">Valider</button>
+    <button mat-raised-button color="warn" (click)="cancel()">Annuler</button>
+  </div>
+</form>

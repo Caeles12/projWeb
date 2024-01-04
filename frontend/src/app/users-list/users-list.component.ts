@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiHelperService } from '../services/api-helper.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-list',
@@ -7,7 +8,7 @@ import { ApiHelperService } from '../services/api-helper.service';
   styleUrl: './users-list.component.css',
 })
 export class UsersListComponent implements OnInit {
-  constructor(private api: ApiHelperService) {}
+  constructor(private api: ApiHelperService, private router: Router) {}
 
   ngOnInit(): void {
     this.api
@@ -16,4 +17,8 @@ export class UsersListComponent implements OnInit {
   }
   displayedColumns: string[] = ['id', 'lastname', 'firstname', 'age'];
   dataSource = [];
+
+  add(): void {
+    this.router.navigateByUrl('/users/new');
+  }
 }
