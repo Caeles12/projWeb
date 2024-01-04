@@ -1,4 +1,14 @@
-<form [formGroup]="editForm" (ngSubmit)="updateRole()" class="edit-form">
+<form [formGroup]="editForm" (ngSubmit)="update()" class="edit-form">
+  <mat-form-field appearance="outline">
+    <mat-label>Nom de l'association</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="nomAsso"
+      placeholder="Nom de l'association"
+      required
+    />
+  </mat-form-field>
   <div *ngIf="association" formArrayName="newRoles">
     <div
       *ngFor="let role of newRoles!.controls; let i = index"
@@ -16,6 +26,6 @@
       </mat-form-field>
     </div>
 
-    <button mat-raised-button color="primary" type="submit">Update Role</button>
+    <button mat-raised-button color="primary" type="submit">Update</button>
   </div>
 </form>
