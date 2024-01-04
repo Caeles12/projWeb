@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiHelperService } from '../services/api-helper.service';
 
 interface Member {
@@ -43,7 +43,11 @@ export class MinuteInformationsComponent {
   displayedColumns: string[] = ['id', 'name', 'firstname', 'age', 'role'];
   displayedColumns2: string[] = ['id', 'date', 'content'];
 
-  constructor(private api: ApiHelperService, private route: ActivatedRoute) {}
+  constructor(
+    private api: ApiHelperService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((res) => {
@@ -57,5 +61,15 @@ export class MinuteInformationsComponent {
         }
       });
     });
+  }
+
+  delete(): void {
+    this.api
+      .delete({ endpoint: '/minutes/' + this.minute!.id })
+      .then((response) => {
+        this.router.navigateByUrl(
+          '/associations/' + this.minute!.association.id,
+        );
+      });
   }
 }

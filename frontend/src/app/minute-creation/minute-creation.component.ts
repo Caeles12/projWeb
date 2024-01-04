@@ -145,6 +145,6 @@ export class MinuteCreationComponent {
   }
 
   cancel(): void {
-    this.router.navigateByUrl('/profile');
+    this.router.navigateByUrl('/associations');
   }
 }

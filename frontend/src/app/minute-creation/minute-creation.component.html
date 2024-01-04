@@ -1,4 +1,5 @@
 <form [formGroup]="createMinuteForm" class="edit-container">
+  <h1>Procès verbal de l'association {{association!.name}}</h1>
   <mat-form-field appearance="outline">
     <mat-label>Date</mat-label>
     <input matInput [matDatepicker]="picker" formControlName="date" required
