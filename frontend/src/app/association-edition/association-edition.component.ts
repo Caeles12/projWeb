@@ -3,6 +3,11 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ApiHelperService } from '../services/api-helper.service';
 
+interface User {
+  name: string;
+  id: number;
+}
+
 interface Member {
   name: string;
   firstname: string;
@@ -27,7 +32,7 @@ export class AssociationEditionComponent {
   newRoles!: FormArray;
 
   association!: Association;
-  members!: Member[];
+  allUsers: User[] = [];
 
   constructor(
     private api: ApiHelperService,
@@ -37,26 +42,47 @@ export class AssociationEditionComponent {
     this.editForm = this.formBuilder.group({
       newRoles: this.formBuilder.array([]),
     });
-    this.newRoles = this.editForm.get('roles') as FormArray;
+    this.newRoles = this.editForm.get('newRoles') as FormArray;
   }
 
   ngOnInit(): void {
-    this.api
-      .get({ endpoint: '/associations/' + this.association.id })
-      .then((response: Association) => {
+    this.route.paramMap.subscribe((res) => {
+      const id = +res.get('id')!;
+      this.api.get({ endpoint: '/associations/' + id }).then((response) => {
         this.association = response;
-        this.members = response.members;
+        this.editForm = this.formBuilder.group({
+          newRoles: this.formBuilder.array([]),
+        });
+        this.newRoles = this.editForm.get('newRoles') as FormArray;
+        for (let u of this.association.members) {
+          console.log(u);
+          console.log(u.id);
+          const roleForm = this.formBuilder.group({
+            userId: u.id,
+            role: [''],
+          });
+          this.newRoles.push(roleForm);
+        }
       });
+    });
+    this.api.get({ endpoint: '/users' }).then((response) => {
+      this.allUsers = response.map((us: any) => {
+        const user: User = {
+          name: us.firstname + ' ' + us.lastname,
+          id: us.id,
+        };
+        return user;
+      });
+    });
   }
 
-  generateRolesForm(): void {
-    for (let u of this.members) {
-      const roleForm = this.formBuilder.group({
-        userId: u.id,
-        role: [''],
-      });
-      this.newRoles.push(roleForm);
+  idToUser(id: number): User | null {
+    for (let us of this.allUsers) {
+      if (us.id == id) {
+        return us;
+      }
     }
+    return null;
   }
 
   updateRole(): void {
