@@ -33,7 +33,17 @@
       </table>
     </div>
     <h4>Minutes :</h4>
+
     <div class="info-section">
+      <button
+      mat-mini-fab
+      color="primary"
+      aria-label="Example icon button with a menu icon"
+      class="badge"
+      (click)="addMinute()"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
       <table
         mat-table
         [dataSource]="minutes"
@@ -67,14 +77,15 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
       </table>
-      <button
-        mat-mini-fab
-        color="warn"
-        aria-label="Delete the association"
-        (click)="delete()"
-      >
-        <mat-icon>delete</mat-icon>
-      </button>
     </div>
+    <button
+    mat-mini-fab
+    color="warn"
+    aria-label="Delete the association"
+    (click)="delete()"
+    class="badge"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
   </div>
 </div>

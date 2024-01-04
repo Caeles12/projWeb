@@ -75,4 +75,10 @@ export class AssociationInformationsComponent {
         this.router.navigateByUrl('/associations');
       });
   }
+
+  addMinute(): void {
+    this.router.navigateByUrl(
+      '/associations/' + this.association!.id + '/minute',
+    );
+  }
 }

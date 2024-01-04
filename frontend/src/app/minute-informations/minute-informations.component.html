@@ -1,34 +1,24 @@
 <!-- minute-informations.component.html -->
 <div class="container">
   <div class="header">
-    <h2>Informations Minute</h2>
+    <h2>Minute</h2>
   </div>
 
   <div *ngIf="minute">
     <div class="info-section">
-      <h3>Minute Details</h3>
-
       <div>
         <p><b>Id:</b> {{ minute.id }}</p>
+        <p><b>Association: </b> 
+          <a [routerLink]="['/associations', minute.association.id]" routerLinkActive="active">{{ minute.association.name }}</a></p>
         <p><b>Date:</b> {{ minute.date }}</p>
         <p><b>Contenu:</b></p>
-        <p>{{ minute.content }}</p>
-      </div>
-    </div>
-
-    <div class="info-section">
-      <h3>Détails Association</h3>
-
-      <div>
-        <p><b>Nom:</b> {{ minute.association.name }}</p>
-      </div>
-
-      <h4>Members</h4>
-      <table
+        <pre>{{ minute.content }}</pre>
+        <p><b>Votants:</b></p>
+        <table
         mat-table
-        [dataSource]="minute.association.members"
+        [dataSource]="minute.voters"
         class="mat-elevation-z8 members-table"
-      >
+        >
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>Id</th>
           <td mat-cell *matCellDef="let member">
@@ -56,6 +46,15 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
+      </div>
     </div>
-  </div>
+    <button
+    mat-mini-fab
+    color="warn"
+    aria-label="Delete the association"
+    (click)="delete()"
+    class="badge"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
 </div>

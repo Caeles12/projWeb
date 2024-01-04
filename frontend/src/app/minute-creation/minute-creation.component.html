@@ -1,0 +1,41 @@
+<form [formGroup]="createMinuteForm" class="edit-container">
+  <h1>Procès verbal de l'association {{association!.name}}</h1>
+  <mat-form-field appearance="outline">
+    <mat-label>Date</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="date" required
+    >
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Contenu</mat-label>
+    <textarea required matInput formControlName="content" placeholder="Contenu de la minute"></textarea>
+  </mat-form-field>
+
+  <mat-form-field  appearance="outline">
+    <mat-label>Votants</mat-label>
+    <mat-chip-grid #chipGrid aria-label="Members selection">
+      @for (user of users; track user) {
+        <mat-chip-row (removed)="remove(user)">
+          {{idToUser(user)!.name}}
+          <button matChipRemove [attr.aria-label]="'remove ' + user">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+    </mat-chip-grid>
+    <input placeholder="Ajouter un votant..." #userInput [formControl]="userCtrl"
+      [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"/>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      @for (user of filteredUsers | async; track user) {
+        <mat-option [value]="user.name">{{user.name}}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  <div class="button-row">
+    <button mat-raised-button color="primary" (click)="createMinute()">Valider</button>
+    <button mat-raised-button color="warn" (click)="cancel()">Annuler</button>
+  </div>
+</form>

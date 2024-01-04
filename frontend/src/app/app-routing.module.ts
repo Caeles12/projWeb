@@ -10,6 +10,7 @@ import { UserInformationsComponent } from './user-informations/user-informations
 import { AssociationInformationsComponent } from './association-informations/association-informations.component';
 import { MinuteInformationsComponent } from './minute-informations/minute-informations.component';
 import { AssociationCreationComponent } from './association-creation/association-creation.component';
+import { MinuteCreationComponent } from './minute-creation/minute-creation.component';
 
 const routes: Routes = [
   { path: 'users', component: UsersListComponent, canActivate: [authGuard] },
@@ -31,6 +32,11 @@ const routes: Routes = [
   {
     path: 'associations/:id',
     component: AssociationInformationsComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'associations/:id/minute',
+    component: MinuteCreationComponent,
     canActivate: [authGuard],
   },
   {

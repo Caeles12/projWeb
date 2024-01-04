@@ -18,7 +18,7 @@
 </mat-step>
 <mat-step [stepControl]="createAssociationForm2" label="Membres">
   <form [formGroup]="createAssociationForm2" class="edit-container">
-    <mat-form-field class="example-chip-list" appearance="outline">
+    <mat-form-field  appearance="outline">
       <mat-label>Members of the association</mat-label>
       <mat-chip-grid #chipGrid aria-label="Members selection">
         @for (user of users; track user) {

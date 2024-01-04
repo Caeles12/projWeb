@@ -19,6 +19,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { LoginComponent } from './login/login.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { NavComponent } from './nav/nav.component';
@@ -31,7 +33,9 @@ import { UserInformationsComponent } from './user-informations/user-informations
 import { AssociationInformationsComponent } from './association-informations/association-informations.component';
 import { MinuteInformationsComponent } from './minute-informations/minute-informations.component';
 import { AssociationCreationComponent } from './association-creation/association-creation.component';
+import { MinuteCreationComponent } from './minute-creation/minute-creation.component';
 
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +49,7 @@ import { AssociationCreationComponent } from './association-creation/association
     AssociationInformationsComponent,
     MinuteInformationsComponent,
     AssociationCreationComponent,
+    MinuteCreationComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,6 +69,8 @@ import { AssociationCreationComponent } from './association-creation/association
     MatChipsModule,
     MatAutocompleteModule,
     MatStepperModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
     {
@@ -71,6 +78,7 @@ import { AssociationCreationComponent } from './association-creation/association
       useClass: TokenHttpInterceptor,
       multi: true,
     },
+    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
   ],
   bootstrap: [AppComponent],
 })
