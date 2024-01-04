@@ -22,12 +22,14 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LoginComponent } from './login/login.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { NavComponent } from './nav/nav.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AssociationsListComponent } from './associations-list/associations-list.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { UserInformationsComponent } from './user-informations/user-informations.component';
@@ -63,6 +65,7 @@ import { UserCreationComponent } from './user-creation/user-creation.component';
     HttpClientModule,
     MatTableModule,
     ReactiveFormsModule,
+    FormsModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
@@ -77,6 +80,8 @@ import { UserCreationComponent } from './user-creation/user-creation.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatDialogModule,
+    MatSelectModule,
+    MatSnackBarModule,
   ],
   providers: [
     {
