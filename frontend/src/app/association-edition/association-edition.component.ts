@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiHelperService } from '../services/api-helper.service';
 
 interface User {
@@ -37,6 +37,7 @@ export class AssociationEditionComponent {
   constructor(
     private api: ApiHelperService,
     private route: ActivatedRoute,
+    private router: Router,
     private formBuilder: FormBuilder,
   ) {
     this.editForm = this.formBuilder.group({
@@ -55,11 +56,9 @@ export class AssociationEditionComponent {
         });
         this.newRoles = this.editForm.get('newRoles') as FormArray;
         for (let u of this.association.members) {
-          console.log(u);
-          console.log(u.id);
           const roleForm = this.formBuilder.group({
             userId: u.id,
-            role: [''],
+            role: [u.role],
           });
           this.newRoles.push(roleForm);
         }
@@ -86,9 +85,17 @@ export class AssociationEditionComponent {
   }
 
   updateRole(): void {
-    this.api.put({
-      endpoint: `/users/this.userId/roles/${this.association.id}`,
-      data: { name: 'A voir' },
-    });
+    var newRoles = this.newRoles.value;
+    for (let role of newRoles) {
+      this.api.put({
+        endpoint: `/roles/${role.userId}/${this.association.id}`,
+        data: {
+          name: role.role,
+          idUser: role.userId,
+          idAssociation: this.association.id,
+        },
+      });
+      this.router.navigateByUrl('/associations/' + this.association.id);
+    }
   }
 }
