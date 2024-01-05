@@ -68,14 +68,6 @@ export class AssociationInformationsComponent {
     });
   }
 
-  delete(): void {
-    this.api
-      .delete({ endpoint: '/associations/' + this.association!.id })
-      .then((response) => {
-        this.router.navigateByUrl('/associations');
-      });
-  }
-
   editRoles(): void {
     this.router.navigateByUrl(
       '/associations/' + this.association!.id + '/edit',
