@@ -10,6 +10,6 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    command: sh -c "ng serve --open"
+    command: sh -c "ng serve --host 0.0.0.0"
     ports:
       - 127.0.0.1:4200:4200
