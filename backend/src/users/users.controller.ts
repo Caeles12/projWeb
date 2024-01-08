@@ -53,6 +53,7 @@ export class UserInput {
 export class UsersController {
   constructor(private service: UsersService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async getAll(): Promise<UserDTO[]> {
     return await this.service.getAllDTO();
@@ -65,6 +66,7 @@ export class UsersController {
     return this.service.getUserDTO(user.username);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   @ApiParam({ name: 'id', required: true })
   async getUser(@Param() parameter): Promise<UserDTO> {
@@ -78,6 +80,7 @@ export class UsersController {
     return us;
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id/roles')
   @ApiParam({ name: 'id', required: true })
   async getUserRoles(@Param() parameter): Promise<UserRole[]> {
@@ -121,6 +124,7 @@ export class UsersController {
     );
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   @ApiParam({ name: 'id', required: true })
   async deleteUser(@Param() parameter): Promise<boolean> {
@@ -133,6 +137,7 @@ export class UsersController {
     return await this.service.deleteUser(parameter.id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   async create(@Body() input: UserInput): Promise<UserDTO> {
     if (
