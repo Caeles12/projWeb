@@ -16,8 +16,12 @@ import { Minute } from './minutes/minute.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'mydatabase.db',
+      type: 'mariadb',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'example',
+      database: 'administration',
       entities: [User, Association, Role, Minute],
       synchronize: true,
     }),
