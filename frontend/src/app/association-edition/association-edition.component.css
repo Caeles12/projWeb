@@ -1,0 +1,22 @@
+.role-field {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.edit-form {
+  max-width: 215px;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+
+.inline {
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  margin-bottom: 30px;
+}

@@ -1,0 +1,56 @@
+<form [formGroup]="editForm" (ngSubmit)="update()" class="edit-form">
+  <p><b>Informations générales: </b></p>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nom de l'association</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="nomAsso"
+      placeholder="Nom de l'association"
+      required
+    />
+  </mat-form-field>
+  <p><b>Rôles et membres: </b></p>
+  <div *ngIf="association" formArrayName="newRoles">
+    <button mat-raised-button color="secondary" (click)="openDialog()" type="button" class="button">Ajouter un membre</button>
+
+    <div
+      *ngFor="let role of newRoles!.controls; let i = index"
+      [formGroupName]="i"
+      class="inline"
+    >
+      <mat-form-field class="role-field" appearance="outline">
+        <mat-label>Rôle de {{ idToUser(role.value.userId)?.name }}</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="role"
+          placeholder="Rôle"
+          required
+        />
+      </mat-form-field>
+      <button
+        mat-mini-fab
+        color="warn"
+        aria-label="Delete the association"
+        class="badge"
+        type="button"
+        (click)="removeUser(role.value.userId)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <button mat-raised-button color="primary" type="submit" class="button">Update</button>
+    <button
+    mat-raised-button
+      color="warn"
+      aria-label="Delete the association"
+      class="badge"
+      (click)="delete()"
+      type="button"
+    >
+      Supprimer l'association
+    </button>
+  </div>
+</form>

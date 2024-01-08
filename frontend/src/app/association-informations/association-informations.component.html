@@ -17,7 +17,9 @@
         <ng-container matColumnDef="membre">
           <th mat-header-cell *matHeaderCellDef>Membres</th>
           <td mat-cell *matCellDef="let members">
-            {{ members.name }}, {{ members.firstname }}
+            <a [routerLink]="['/users', members.id]" routerLinkActive="active"
+              >{{ members.name }}, {{ members.firstname }}</a
+            >
           </td>
         </ng-container>
 
@@ -31,7 +33,17 @@
       </table>
     </div>
     <h4>Minutes :</h4>
+
     <div class="info-section">
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Example icon button with a menu icon"
+        class="badge"
+        (click)="addMinute()"
+      >
+        <mat-icon>add</mat-icon>
+      </button>
       <table
         mat-table
         [dataSource]="minutes"
@@ -40,7 +52,11 @@
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>MinuteId</th>
           <td mat-cell *matCellDef="let minutes">
-            {{ minutes.id }}
+            <a
+              [routerLink]="['/minutes', minutes.id]"
+              routerLinkActive="active"
+              >{{ minutes.id }}</a
+            >
           </td>
         </ng-container>
 
@@ -62,5 +78,14 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
       </table>
     </div>
+    <button
+      mat-mini-fab
+      color="primary"
+      aria-label="Example icon button with a menu icon"
+      class="badge"
+      (click)="editRoles()"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
   </div>
 </div>
