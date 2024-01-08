@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { Role } from './role.entity';
@@ -16,17 +17,20 @@ import { RolesService } from './roles.service';
 import { RoleUpdate } from './roles.update';
 import { User } from 'src/users/user.entity';
 import { UserDTO } from 'src/users/user.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('roles')
 @Controller('roles')
 export class RolesController {
   constructor(private service: RolesService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async getAll(): Promise<Role[]> {
     return await this.service.getAll();
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('users/:name')
   async gettAllUsers(@Param() parameter): Promise<UserDTO[]> {
     const users = await this.service.getAllUsers(parameter.name);
@@ -39,6 +43,7 @@ export class RolesController {
     return users;
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':idUser/:idAsso')
   @ApiParam({ name: 'idUser', required: true })
   async getUser(@Param() parameter): Promise<Role> {
@@ -55,6 +60,7 @@ export class RolesController {
     return role;
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Put(':idUser/:idAsso')
   @ApiParam({ name: 'id', required: true })
   async setUser(@Body() input: RoleUpdate, @Param() parameter): Promise<Role> {
@@ -76,6 +82,7 @@ export class RolesController {
     );
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':idUser/:idAsso')
   @ApiParam({ name: 'id', required: true })
   async deleteUser(@Param() parameter): Promise<boolean> {
@@ -93,6 +100,7 @@ export class RolesController {
     return await this.service.deleteRole(parameter.idUser, parameter.idAsso);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   async create(@Body() input: RoleInput): Promise<Role> {
     if (
