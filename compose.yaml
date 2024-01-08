@@ -1,0 +1,15 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: sh -c "npm run start"
+    ports:
+      - 127.0.0.1:3000:3000
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    command: sh -c "ng serve --open"
+    ports:
+      - 127.0.0.1:4200:4200
