@@ -1,25 +1,22 @@
 # FR-Administration : Frontend
 
-Frontend de l'application FR-Administration, développé en Angular.
+Frontend de l'application FR-Administration, développée en Angular.
 
-## :bricks: Build from source
+## Build from source
 
 ### Dépendances
 
 - Node.js
 
 ### Installation
+
 ```
-bash
-git clone
-cd wm-projet
 npm install
 ```
 
 ### Développement
 
 ```
-bash
 ng serve
 ```
 
