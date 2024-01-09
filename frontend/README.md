@@ -22,7 +22,9 @@ ng serve
 
 Aller sur `http://localhost:4200/`.
 
+### Test
+
 ```
-ng test
-ng e2e
+ng test # utilise Jasmine et Karma
+ng e2e # utilise Cypress
 ```
