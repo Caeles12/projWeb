@@ -8,6 +8,7 @@ import {
   HttpStatus,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { MinutesService } from './minutes.service';
@@ -15,12 +16,14 @@ import { Minute } from './minute.entity';
 import { MinuteUpdate } from './minutes.update';
 import { MinuteInput } from './minutes.input';
 import { MinuteDTO } from './minute.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('minutes')
 @Controller('minutes')
 export class MinutesController {
   constructor(private minuteService: MinutesService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async getAll(): Promise<MinuteDTO[]> {
     var minutesDTO: MinuteDTO[] = [];
@@ -31,6 +34,7 @@ export class MinutesController {
     return minutesDTO;
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   @ApiParam({ name: 'id', required: true })
   async getAssociation(@Param() parameter): Promise<MinuteDTO> {
@@ -44,6 +48,7 @@ export class MinutesController {
     return this.minuteService.minuteToDTO(minute);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Put(':id')
   @ApiParam({ name: 'id', required: true })
   async setAssociation(
@@ -67,6 +72,7 @@ export class MinutesController {
     );
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   @ApiParam({ name: 'id', required: true })
   async deleteAssociation(@Param() parameter): Promise<boolean> {
@@ -79,6 +85,7 @@ export class MinutesController {
     return await this.minuteService.deleteMinute(parameter.id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   async create(@Body() input: MinuteInput): Promise<MinuteDTO> {
     if (

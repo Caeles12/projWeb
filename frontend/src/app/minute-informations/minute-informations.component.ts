@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiHelperService } from '../services/api-helper.service';
 
 interface Member {
@@ -29,6 +29,7 @@ interface User {
   firstname: string;
   lastname: string;
   age: number;
+  role?: string;
 }
 
 @Component({
@@ -42,14 +43,33 @@ export class MinuteInformationsComponent {
   displayedColumns: string[] = ['id', 'name', 'firstname', 'age', 'role'];
   displayedColumns2: string[] = ['id', 'date', 'content'];
 
-  constructor(private api: ApiHelperService, private route: ActivatedRoute) {}
+  constructor(
+    private api: ApiHelperService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((res) => {
       const id = +res.get('id')!;
       this.api.get({ endpoint: '/minutes/' + id }).then((response) => {
         this.minute = response;
+        for (let i = 0; i < this.minute!.voters.length; i++) {
+          this.minute!.voters[i].role = this.minute!.association.members.find(
+            (x) => x.id === this.minute!.voters[i].id,
+          )?.role;
+        }
       });
     });
+  }
+
+  delete(): void {
+    this.api
+      .delete({ endpoint: '/minutes/' + this.minute!.id })
+      .then((response) => {
+        this.router.navigateByUrl(
+          '/associations/' + this.minute!.association.id,
+        );
+      });
   }
 }

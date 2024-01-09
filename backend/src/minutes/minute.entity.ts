@@ -20,7 +20,7 @@ export class Minute {
   @Column()
   content: string;
 
-  @ManyToOne(() => Association, { eager: true })
+  @ManyToOne(() => Association, { eager: true, onDelete: 'CASCADE' })
   @JoinTable()
   association: Association;
 

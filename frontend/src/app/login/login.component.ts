@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiHelperService } from '../services/api-helper.service';
 import { TokenStorageService } from '../services/token-storage.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
     private api: ApiHelperService,
     private tokenStorageService: TokenStorageService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
   ) {
     if (this.tokenStorageService.isLogged()) {
       this.router.navigate(['/profile']); // Remplacez par le chemin de votre choix
@@ -44,7 +45,7 @@ export class LoginComponent implements OnInit {
     } else {
       // Le formulaire n'est pas valide, traitez cela en conséquence
       console.log(
-        'Formulaire non valide. Veuillez remplir tous les champs obligatoires.'
+        'Formulaire non valide. Veuillez remplir tous les champs obligatoires.',
       );
     }
   }

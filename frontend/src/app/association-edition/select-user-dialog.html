@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Ajouter un nouveau membre</h1>
+<div mat-dialog-content>
+  <mat-form-field class="example-full-width">
+    <mat-label>Membre</mat-label>
+    <input type="text"
+           placeholder="Sélectionnez l'utilisateur à ajouter"
+           matInput
+           [matAutocomplete]="auto" [(ngModel)]="data.selectedUser">
+    <mat-autocomplete #auto="matAutocomplete">
+      @for (option of data.users; track option) {
+        <mat-option [value]="option.id">{{option.firstname}} {{option.name}}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Rôle</mat-label>
+    <input matInput required [(ngModel)]="data.assignedRole">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button [mat-dialog-close]="{user: data.selectedUser, role: data.assignedRole}" cdkFocusInitial>Ajouter</button>
+</div>

@@ -1,4 +1,9 @@
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AssociationsListComponent } from './associations-list.component';
 
@@ -8,10 +13,15 @@ describe('AssociationsListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssociationsListComponent]
-    })
-    .compileComponents();
-    
+      imports: [
+        HttpClientModule,
+        HttpClientTestingModule,
+        MatIconModule,
+        MatTableModule,
+      ],
+      declarations: [AssociationsListComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AssociationsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -16,18 +16,31 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { LoginComponent } from './login/login.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { NavComponent } from './nav/nav.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AssociationsListComponent } from './associations-list/associations-list.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { UserInformationsComponent } from './user-informations/user-informations.component';
 import { AssociationInformationsComponent } from './association-informations/association-informations.component';
 import { MinuteInformationsComponent } from './minute-informations/minute-informations.component';
+import { AssociationCreationComponent } from './association-creation/association-creation.component';
+import { AssociationEditionComponent } from './association-edition/association-edition.component';
+import { MinuteCreationComponent } from './minute-creation/minute-creation.component';
 
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { UserCreationComponent } from './user-creation/user-creation.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +53,10 @@ import { MinuteInformationsComponent } from './minute-informations/minute-inform
     UserInformationsComponent,
     AssociationInformationsComponent,
     MinuteInformationsComponent,
+    AssociationCreationComponent,
+    AssociationEditionComponent,
+    MinuteCreationComponent,
+    UserCreationComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +65,7 @@ import { MinuteInformationsComponent } from './minute-informations/minute-inform
     HttpClientModule,
     MatTableModule,
     ReactiveFormsModule,
+    FormsModule,
     MatCardModule,
     MatInputModule,
     MatButtonModule,
@@ -56,6 +74,14 @@ import { MinuteInformationsComponent } from './minute-informations/minute-inform
     MatSidenavModule,
     MatDividerModule,
     MatListModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatSnackBarModule,
   ],
   providers: [
     {
@@ -63,6 +89,7 @@ import { MinuteInformationsComponent } from './minute-informations/minute-inform
       useClass: TokenHttpInterceptor,
       multi: true,
     },
+    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
   ],
   bootstrap: [AppComponent],
 })
