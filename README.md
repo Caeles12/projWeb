@@ -1,6 +1,6 @@
 # Projet Web FR-Administration
 
-Application développée en Angular et Nest.js, permettant la gestion d'associations, de leur membres, du rpoles des membres et de leur procès verbaux.
+Application développée en Angular et Nest.js, permettant la gestion d'associations, de leur membres, du rôle des membres et de leur procès verbaux.
 
 ### Installation
 
