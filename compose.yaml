@@ -11,11 +11,11 @@ services:
     ports:
       - 127.0.0.1:4200:4200
     networks:
-      - back 
+      - back
 
   db:
     container_name: database
-    
+
     image: mariadb:latest
     restart: always
     command: --init-file /docker-entrypoint-initdb.d/init.sql
@@ -24,10 +24,10 @@ services:
       MYSQL_DATABASE: administration
       MYSQL_USER: user
       MYSQL_PASSWORD: example
-    
+
     networks:
-      - back 
-    
+      - back
+
     ports:
       - 127.0.0.1:3306:3306
     volumes:
@@ -44,9 +44,12 @@ services:
       - 15672:15672 # Port pour le panneau de gestion (UI)
 
     environment:
-      RABBITMQ_DEFAULT_USER: "admin"
-      RABBITMQ_DEFAULT_PASS: "admin"
-    
+      RABBITMQ_DEFAULT_USER: 'admin'
+      RABBITMQ_DEFAULT_PASS: 'admin'
+
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq/mnesia/
+
     networks:
       - back
 
@@ -65,3 +68,4 @@ services:
 
 volumes:
   mysql-data:
+  rabbitmq-data:
