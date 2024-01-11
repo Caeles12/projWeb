@@ -34,6 +34,22 @@ services:
       - mysql-data:/var/lib/mysql
       - ./backend/database.sql:/docker-entrypoint-initdb.d/init.sql
 
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbitmq
+    restart: always
+
+    ports:
+      - 5672:5672 # Port par défaut pour les connexions RabbitMQ
+      - 15672:15672 # Port pour le panneau de gestion (UI)
+
+    environment:
+      RABBITMQ_DEFAULT_USER: "admin"
+      RABBITMQ_DEFAULT_PASS: "admin"
+    
+    networks:
+      - back
+
   backend:
     build:
       context: ./backend
@@ -43,6 +59,7 @@ services:
       - 127.0.0.1:3000:3000
     depends_on:
       - db
+      - rabbitmq
     networks:
       - back
 
