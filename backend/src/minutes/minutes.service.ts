@@ -8,6 +8,7 @@ import { User } from 'src/users/user.entity';
 import { Association } from 'src/associations/association.entity';
 import { MinuteDTO } from './minute.dto';
 import { Voter } from './minutes.voter';
+import { ProducerService } from 'src/producer/producer.service';
 
 @Injectable()
 export class MinutesService {
@@ -18,6 +19,7 @@ export class MinutesService {
     private assoService: AssociationsService,
     @InjectRepository(Minute)
     private repository: Repository<Minute>,
+    private producerService: ProducerService,
   ) {}
 
   async usersToVoters(users: User[]): Promise<Voter[]> {
@@ -138,6 +140,14 @@ export class MinutesService {
         voters: voters,
       }),
     );
+
+    const emailData = {
+      email: 'test@test.test',
+      subject: `Nouveau Procès Verbal du ${date}`,
+      html: `<p>${content}<\p>`,
+    };
+    await this.producerService.addToEmailQueue(emailData);
+
     return newMinute;
   }
 }

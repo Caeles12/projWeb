@@ -5,6 +5,7 @@ import { MinutesController } from './minutes.controller';
 import { MinutesService } from './minutes.service';
 import { AssociationsModule } from 'src/associations/associations.module';
 import { UsersModule } from 'src/users/users.module';
+import { ProducerService } from 'src/producer/producer.service';
 
 @Module({
   controllers: [MinutesController],
@@ -13,7 +14,7 @@ import { UsersModule } from 'src/users/users.module';
     forwardRef(() => AssociationsModule),
     forwardRef(() => UsersModule),
   ],
-  providers: [MinutesService],
+  providers: [MinutesService, ProducerService],
   exports: [MinutesService],
 })
 export class MinutesModule {}

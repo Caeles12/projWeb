@@ -12,6 +12,7 @@ import { RolesModule } from './roles/roles.module';
 import { Role } from './roles/role.entity';
 import { MinutesModule } from './minutes/minutes.module';
 import { Minute } from './minutes/minute.entity';
+import { ProducerService } from './producer/producer.service';
 
 @Module({
   imports: [
@@ -32,6 +33,6 @@ import { Minute } from './minutes/minute.entity';
     MinutesModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ServicesService],
+  providers: [AppService, ServicesService, ProducerService],
 })
 export class AppModule {}
