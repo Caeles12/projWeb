@@ -6,7 +6,7 @@ flowchart TB
 
   U(User)
   D[(MariaDB)]
-  F[Angular Frontend]
+  F[Angular Frontend avec NGinx]
   B[Nest Backend]
   N[NGinx]
   M[(RabbitMQ)]
@@ -16,11 +16,8 @@ flowchart TB
   U -->|HTTP PORT 80| F
   F -->|HTTP PORT 8080| U
 
-  F -->|HTTP PORT 80| N
-  N -->|HTTP PORT 80| F
-
-  N -->|HTTP PORT ?| B
-  B -->|HTTP PORT 4200| N
+  F -->|HTTP PORT 80| B
+  B -->|HTTP PORT 80| F
 
   B -->|TCP PORT 3306| D
   D -->|TCP PORT ?| B

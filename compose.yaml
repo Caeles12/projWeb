@@ -1,11 +1,8 @@
+networks:
+  back:
+    driver: bridge
+
 services:
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    command: sh -c "npm run start"
-    ports:
-      - 127.0.0.1:3000:3000
   frontend:
     build:
       context: ./frontend
@@ -13,13 +10,41 @@ services:
     command: sh -c "ng serve --host 0.0.0.0"
     ports:
       - 127.0.0.1:4200:4200
+    networks:
+      - back 
+
   db:
+    container_name: database
+    
     image: mariadb:latest
     restart: always
+    command: --init-file /docker-entrypoint-initdb.d/init.sql
     environment:
-      MARIADB_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: administration
+      MYSQL_USER: user
+      MYSQL_PASSWORD: example
+    
+    networks:
+      - back 
+    
     ports:
-      - 3306:3306
+      - 127.0.0.1:3306:3306
     volumes:
-      - ./backend/database.sql:/docker-entrypoint-initdb.d/database.sql
+      - mysql-data:/var/lib/mysql
+      - ./backend/database.sql:/docker-entrypoint-initdb.d/init.sql
 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: sh -c 'npm run start'
+    ports:
+      - 127.0.0.1:3000:3000
+    depends_on:
+      - db
+    networks:
+      - back
+
+volumes:
+  mysql-data:

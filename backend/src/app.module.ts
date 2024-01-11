@@ -16,10 +16,10 @@ import { Minute } from './minutes/minute.entity';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mariadb',
-      host: 'localhost',
+      type: 'mysql',
+      host: 'database',
       port: 3306,
-      username: 'root',
+      username: 'user',
       password: 'example',
       database: 'administration',
       entities: [User, Association, Role, Minute],
