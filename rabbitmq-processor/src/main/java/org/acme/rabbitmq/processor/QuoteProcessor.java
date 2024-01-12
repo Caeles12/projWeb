@@ -5,9 +5,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.eclipse.microprofile.reactive.messaging.Message;
 
-import io.vertx.core.json.JsonArray;
-import io.vertx.core.json.JsonObject;
-
 import java.util.concurrent.CompletionStage;
 
 

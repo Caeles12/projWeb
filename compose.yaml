@@ -52,6 +52,21 @@ services:
 
     networks:
       - back
+  
+  producer:
+    image: rabbitmq-processor:1.0-${QUARKUS_MODE:-jvm}
+    build:
+      context: rabbitmq-processor
+      dockerfile: src/main/docker/Dockerfile.${QUARKUS_MODE:-jvm}
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+
+    depends_on:
+      - rabbitmq
+
+    networks:
+      - back
 
   backend:
     build:
