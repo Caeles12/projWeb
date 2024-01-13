@@ -25,7 +25,9 @@ export class MinutesService {
   async usersToVoters(users: User[]): Promise<Voter[]> {
     var voters: Voter[] = [];
     for (let u of users) {
-      voters.push(new Voter(u.lastname, u.firstname, u.age, u.id));
+      if(u != null){
+        voters.push(new Voter(u.lastname, u.firstname, u.age, u.id));
+      }
     }
     return voters;
   }
@@ -125,6 +127,9 @@ export class MinutesService {
     for (let i of votersId) {
       voters.push(await this.userService.getUser(i));
     }
+    let votersDTO: Voter[] = await this.usersToVoters(voters);
+
+
     let d = date.split('/');
     let jour = parseInt(d[0]);
     let mois = parseInt(d[1]) - 1;
@@ -142,10 +147,12 @@ export class MinutesService {
     );
 
     const emailData = {
-      email: 'test@test.test',
-      subject: `Nouveau Procès Verbal du ${date}`,
-      html: `<p>${content}<\p>`,
+      date: date,
+      content: content,
+      association: {name: association.name, id: association.id},
+      voters: votersDTO,
     };
+
     await this.producerService.addToEmailQueue(emailData);
 
     return newMinute;
