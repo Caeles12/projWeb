@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenStorageService } from './token-storage.service';
 import { Router } from '@angular/router';
 
-export const base_url: string = 'http://localhost:3000';
+export const base_url: string = '/api/';
 
 @Injectable({
   providedIn: 'root',
