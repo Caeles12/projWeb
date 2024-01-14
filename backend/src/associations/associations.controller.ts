@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { AssociationsService } from './associations.service';
 import { Association } from './association.entity';
@@ -17,6 +18,7 @@ import { AssociationsDTO } from './association.dto';
 import { Member } from './association.member';
 import { Minute } from 'src/minutes/minute.entity';
 import { MinuteDTO } from 'src/minutes/minute.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 export class SortInput {
   @ApiProperty({
@@ -63,11 +65,13 @@ export class AssociationInput {
 export class AssociationsController {
   constructor(private assoService: AssociationsService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   async getAll(): Promise<AssociationsDTO[]> {
     return await this.assoService.getAllDTO();
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   @ApiParam({ name: 'id', required: true })
   async getAssociation(@Param() parameter): Promise<AssociationsDTO> {
@@ -83,6 +87,7 @@ export class AssociationsController {
     return assoc;
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id/members')
   @ApiParam({ name: 'id', required: true })
   async getMembers(@Param() parameter): Promise<Member[]> {
@@ -98,6 +103,7 @@ export class AssociationsController {
     return await this.assoService.getMembers(Number(parameter.id));
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id/minutes')
   @ApiQuery({
     name: 'sort',
@@ -129,6 +135,7 @@ export class AssociationsController {
     );
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Put(':id')
   @ApiParam({ name: 'id', required: true })
   async setAssociation(
@@ -151,6 +158,7 @@ export class AssociationsController {
     );
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   @ApiParam({ name: 'id', required: true })
   async deleteAssociation(@Param() parameter): Promise<boolean> {
@@ -166,6 +174,7 @@ export class AssociationsController {
     return await this.assoService.deleteAssociation(parameter.id);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   async create(@Body() input: AssociationInput): Promise<AssociationsDTO> {
     if (input.name === undefined || input.idUsers === undefined) {
