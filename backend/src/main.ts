@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as swStats from 'swagger-stats';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as apiSpecif from './swagger/api-json.json';
 import helmet from 'helmet';
 
 async function bootstrap() {
@@ -14,7 +16,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-
+  app.use(swStats.getMiddleware({ swaggerSpec: apiSpecif }));
   await app.listen(3000);
 }
 bootstrap();

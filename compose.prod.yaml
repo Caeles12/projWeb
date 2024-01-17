@@ -9,8 +9,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     command: sh -c "ng serve --host 0.0.0.0"
-    ports:
-      - 4200:4200
+    expose:
+      - "4200"
     networks:
       - back
 
@@ -29,8 +29,8 @@ services:
     networks:
       - back
 
-    ports:
-      - 3306:3306
+    expose:
+      - "3306"
     volumes:
       - mysql-data:/var/lib/mysql
       - ./backend/database.sql:/docker-entrypoint-initdb.d/init.sql
@@ -40,9 +40,8 @@ services:
     container_name: rabbitmq
     restart: always
 
-    ports:
-      - "5672:5672" # Port par défaut pour les connexions RabbitMQ
-      - 15672:15672 # Port pour le panneau de gestion (UI)
+    expose:
+      - "5672" # Port par défaut pour les connexions RabbitMQ
 
     environment:
       RABBITMQ_DEFAULT_USER: 'admin'
@@ -73,8 +72,10 @@ services:
     container_name: maildev
     image: maildev/maildev
     ports:
-      - "1080:1080"
-      - "1025:1025"
+      - 1025:1025
+    expose:
+      - "1080"
+      - "1025"
     networks:
       - back
 
@@ -84,8 +85,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     command: sh -c 'npm run start'
-    ports:
-      - 3000:3000
+    expose:
+      - "3000"
     depends_on:
       - db
       - rabbitmq
@@ -99,12 +100,40 @@ services:
       - frontend
       - maildev
     ports:
-      - "1234:80"
+      - 1234:80
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - back
+  
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    expose:
+      - "9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - back
+  
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - 3030:3000
+    environment:
+      GF_SECURITY_ADMIN_USER: 'admin'
+      GF_SECURITY_ADMIN_PASSWORD: 'admin'
+      GF_SERVER_SERVE_FROM_SUB_PATH: 'true'
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./grafana/grafana-dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
+      - ./grafana/grafana-datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./grafana/dashboards/:/var/lib/grafana/dashboards
     networks:
       - back
 
 volumes:
   mysql-data:
   rabbitmq-data:
+  grafana-storage:
