@@ -74,18 +74,27 @@ Nous aurions pu décomposer le backend en éléments plus petits, comme un servi
 - MariaDB
 - Serveur de messagerie
 - NGinx
+- Prometheus
+- Grafana
+- InfluxDB
+- K6
+
 
 ## Statuts des différents services implémentés
 
-| Service           | Status     |
-| ----------------- | ---------- |
-| Backend NestJS    | Implementé |
-| Frontend Angular  | Implementé |
-| MariaDB           | Implementé |
-| RabbitMQ          | Implementé |
-| Nginx             | Implementé |
-| Quarkus           | Implementé |
-| Server messagerie | Implementé |
+| Service           | Status                             |
+| ----------------- | ---------------------------------- |
+| Backend NestJS    | Implementé, Monitoré et Load testé |
+| Frontend Angular  | Implementé                         |
+| MariaDB           | Implementé                         |
+| RabbitMQ          | Implementé                         |
+| Nginx             | Implementé                         |
+| Quarkus           | Implementé                         |
+| Server messagerie | Implementé                         |
+| Prometheus        | Implementé                         |
+| Grafana           | Implementé                         |
+| InfluxDB          | Implementé                         |
+| K6                | Implementé                         |
 
 ## Options de configuration
 
@@ -117,7 +126,7 @@ Nous aurions pu décomposer le backend en éléments plus petits, comme un servi
 
 Les services exposent uniquement les ports nécessaires à l'extérieur. Par exemple, NGinx expose le port 1234, mais les services internes communiquent via un réseau Docker interne (`back`).
 
-Le seul port exposé est le port 1234 de NGINX.
+Les seuls ports exposés en prod sont les ports 1234 et 3030 de NGINX et de Grafana.
 
 ## Fonctionnalités supplémentaires
 
