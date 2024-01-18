@@ -1,4 +1,4 @@
-# Architecture de l'application - Projet en cours
+# Architecture de l'application - Projet fini
 
 ## Schéma de nos micro-services
 
