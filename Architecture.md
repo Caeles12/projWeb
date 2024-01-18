@@ -14,8 +14,14 @@ flowchart TB
   M[(RabbitMQ)]
   Q[Quarkus Microservice]
   Ml[Mail Server]
+  subgraph dev
+  Pm[Prometheus]
+  Gf[Grafana]
+  Id[Influx db]
+  K6[K6]
+  end
 
-  U -->|HTTP PORT 80| N
+  U -->|HTTP PORT 1234| N
   N -->|HTTP PORT 4200| F
   N -->|HTTP PORT 3000| B
   N -->|HTTP PORT 1025| Ml
@@ -32,6 +38,14 @@ flowchart TB
   Q -->|SMTP PORT 25| Ml
 
   Ml -->|SMTP PORT 25| U
+
+  K6 -->|HTTP PORT 3000| B
+  K6 -->|HTTP PORT 8086| Id
+  Gf -->|HTTP PORT 9090| Pm
+  Gf -->|HTTP PORT 8086| Id
+  U --> |HTTP PORT 3030| Gf
+  Pm -->|HTTP PORT 3000| B
+
 
 ```
 
@@ -118,9 +132,28 @@ Nous aurions pu décomposer le backend en éléments plus petits, comme un servi
 
 ## Comment utiliser l'application
 
+L'application est accesible sur le port `1234`
+
+Le service de mail est disponible sur l'endpoint `/mail/`
+
+L'api est disponible sur l'endpoint `/api/api`
+
+Le dashboard grafana est disponible sur le port `3030`
+
+
 ### En mode développement
 
+Lancer l'application: `npm run start:dev`
+
+Arreter l'application: `npm run stop:dev`
+
+Lancer le test de charge: `npm run loadtest`
+
 ### En mode production
+
+Lancer l'application: `npm run start:prod`
+
+Arreter l'application: `npm run stop:dev`
 
 ## Mesures de sécurité
 
