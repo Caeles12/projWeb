@@ -69,6 +69,8 @@ Le système inclut rabbitmq comme file d'attente de messages, ce qui permet au s
 
 - Utilisation de Nginx comme proxy inverse et équilibreur de charge : Nginx est un serveur web et un proxy inverse léger et performant. Il est connu pour sa faible consommation de ressources et sa capacité à gérer de grandes quantités de connexions simultanées, ce qui le rend bien adapté à une utilisation en tant que proxy inverse et équilibreur de charge dans une architecture microservices.
 
+- Utilisation de k6 pour le test de charge: K6 couplé à influxDB permet de réaliser des test de charge efficaces sur différents endpoints de notre backend. Il est aussi très lié à Grafana, que nous utilisons déjà pour notre dashboard, et permet de générer facilement un dashboard pour visualiser le résultat des tests de charge.
+
 ## Alternatives possibles
 
 Au lieu d'utiliser NestJS, nous aurions pu choisir un autre framework web, comme Express.js pour Node.js ou Flask pour Python.
